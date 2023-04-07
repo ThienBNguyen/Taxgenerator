@@ -91,7 +91,7 @@ medicare_wages_withheld = medicare_wages_str[1]
 #     employer_id = match.group(0)
 #     print(employer_id)
 
-wb = xl.load_workbook('./Form 1040 Leadsheet .xlsx')
+wb = xl.load_workbook('./Form1040.xlsx')
 # print(wb.sheetnames)
 W2_Generate = wb.create_sheet(title='W-2Generate', index=0)
 ws_1040 = wb["1040"]
@@ -121,7 +121,7 @@ W2_Generate['J1'] = 'tips Medicare tax withheld'
 W2_Generate.append([employer_name, employee_name,
           employer_id, employer_ssa, employee_wage, federal_income_withheld, social_security, social_security_tax_withheld, medicare_wages, medicare_wages_withheld])
 # Saving the changes
-wb.save('./Form 1040 Leadsheet .xlsx')
+wb.save('./Form1040.xlsx')
 print('completed')
 # print(name_line)
 # Remove leading/trailing white space from the name line
