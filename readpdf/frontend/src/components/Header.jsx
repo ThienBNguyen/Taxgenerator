@@ -10,9 +10,9 @@ export default function header() {
     return (
         <>
             {['sm'].map((expand) => (
-                <Navbar key={expand} bg="light" expand={expand} className="mb-3">
+                <Navbar key={expand} expand={expand} className="bg-dark text-white-50">
                     <Container fluid>
-                        <Navbar.Brand href="#">Tax Generator</Navbar.Brand>
+                        <Navbar.Brand href="#" className='text-white-50'>Tax Generator</Navbar.Brand>
                         <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-${expand}`} />
                         <Navbar.Offcanvas
                             id={`offcanvasNavbar-expand-${expand}`}
@@ -26,7 +26,7 @@ export default function header() {
                             </Offcanvas.Header>
                             <Offcanvas.Body>
                                 <Nav className="justify-content-end flex-grow-1 pe-3">
-                                    <Nav.Link href="#action1"><Button variant="outline-dark">Sign in </Button></Nav.Link>
+                                    <Nav.Link href="#action1"><Button variant="outline-light">Sign in </Button></Nav.Link>
                                     <Nav.Link href="#action2"><Button variant="primary">Get Started</Button></Nav.Link>
 
                                 </Nav>

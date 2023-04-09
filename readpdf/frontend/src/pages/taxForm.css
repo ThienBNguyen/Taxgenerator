@@ -1,0 +1,13 @@
+.taxPanel {
+    background: rgb(255, 255, 255);
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 16px 0px;
+    border-radius: 8px;
+    height: 100%;
+    color: rgb(107, 108, 114);
+}
+.taxOuterPanel{
+    background: linear-gradient(210.04deg, rgb(37, 198, 180) 7.76%, rgb(27, 129, 205) 92.3%);
+}
+.taxFormDiv{
+    /* padding-top: 5px; */
+}
