@@ -166,7 +166,7 @@ export default function TaxForm() {
 
                     )}
                     {/* for dependent */}
-                    <div >
+                    {/* <div >
                         <span>
                             Dependents
                         </span>
@@ -199,19 +199,14 @@ export default function TaxForm() {
                                     checked={selectedMarialStatusOption === "Single"}
                                     onChange={handleOptionMarialStatusChange} />
                             </div>
-
-
-
-
-
                         </div>
 
-                    </div>
+                    </div> */}
                     {/* tax and wage value */}
                     <div>
                         <div>
                             <span>
-                                Enter your annual earned income (An estimate is ok)
+                                Enter your Gross Paid amount (YTD)
                             </span>
                             <div>
                                 <input type="text" value={inputValue} onChange={handleInputChange} />
@@ -219,7 +214,7 @@ export default function TaxForm() {
                         </div>
                         <div>
                             <span>
-                                Federal Income Tax Withhold (YTD)
+                                Enter your Federal Income Tax Withholding (YTD)
                             </span>
                             <div>
                                 <input type="text" value={federalInputValue} onChange={handleFederalInputChange} />
