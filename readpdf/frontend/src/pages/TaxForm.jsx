@@ -1,13 +1,29 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import './taxForm.css'
+import FileStatus from './FileStatus';
+import { calculateSingleTax, calculateHeadOfHouseholdTax, calculateMarriedFilingSeparatelyTax, calculateMarriedFilingJoinlyTax } from "../services/TaxBracketCal";
 export default function TaxForm() {
     const [inputValue, setInputValue] = useState("");
     const [selectedHeadOption, setSelectedHeadOption] = useState("");
-    let standardDeductionValue = 0
-    let taxRefund = 0
-    let standardDeduction = { "single": 13850, "head_of_household": 20800, "married_filing_jointly": 27700, "married_filing_separately": 13850, "Qualifying_widower": 27700 }
-    let taxBracket = { "single": 2932, "head_of_household": 2011, "married_filing_jointly": 1230, "married_filing_separately": 2932, "Qualifying_widower": 1230 }
     const [selectedOption, setSelectedOption] = useState("");
+    const [selectedMarialStatusOption, setSelectedMarialStatusOption] = useState("");
+    const [federalInputValue, setFederalInputValue] = useState("");
+    const [taxBracket, setTaxBracket] = useState("");
+    const [accumulatedTax, setAccumulatedTax] = useState(0);
+    const [dataFromChild, setDataFromChild] = useState("");
+    function handleDataFromChild(data) {
+        setDataFromChild(data);
+    }
+    // let standardDeductionValue = 0
+    // let taxRate=0;
+    let estimateTaxableIncome = 0;
+    let Refund = 0;
+    let standardDeductionValue = 0;
+    let taxRate = 0
+    // let standardDeduction = { "single": 13850, "head_of_household": 20800, "married_filing_jointly": 27700, "married_filing_separately": 13850, "Qualifying_widower": 27700 }
+    // let taxBracket = { "single": 2932, "head_of_household": 2011, "married_filing_jointly": 1230, "married_filing_separately": 2932, "Qualifying_widower": 1230 }
+    let standardDeduction = { "single": 12950, "head_of_household": 19400, "married_filing_jointly": 25900, "married_filing_separately": 12950, "Qualifying_widower": 25900 }
+
 
     const handleOptionChange = (event) => {
         setSelectedOption(event.target.value);
@@ -16,7 +32,6 @@ export default function TaxForm() {
     const handleHeadOptionChange = (event) => {
         setSelectedHeadOption(event.target.value);
     };
-    const [selectedMarialStatusOption, setSelectedMarialStatusOption] = useState("");
 
     const handleOptionMarialStatusChange = (event) => {
         setSelectedMarialStatusOption(event.target.value);
@@ -24,49 +39,69 @@ export default function TaxForm() {
     const handleInputChange = (event) => {
         setInputValue(event.target.value);
     };
-    const [federalInputValue, setFederalInputValue] = useState("");
 
     const handleFederalInputChange = (event) => {
         setFederalInputValue(event.target.value);
     };
-    if (selectedMarialStatusOption === "Single") {
+    // if (selectedMarialStatusOption === "Single") {
+    //     standardDeductionValue = standardDeduction.single
+    //     // taxRefund = taxBracket.single
+    // } else if (selectedMarialStatusOption === "Married") {
+    //     if (selectedHeadOption === "YesHead") {
+    //         standardDeductionValue = standardDeduction.head_of_household
+    //         // taxRefund = taxBracket.head_of_household
+    //     }
+    //     if (selectedOption === "YesJoint") {
+    //         standardDeductionValue = standardDeduction.married_filing_jointly
+    //         // taxRefund = taxBracket.married_filing_jointly
+    //     }
+    //     if (selectedOption === "NoJoint") {
+    //         standardDeductionValue = standardDeduction.married_filing_separately
+    //         // taxRefund = taxBracket.married_filing_separately
+    //     }
+    // }
+    if (dataFromChild === "Single") {
         standardDeductionValue = standardDeduction.single
-        taxRefund = taxBracket.single
-    } else if (selectedMarialStatusOption === "Married") {
-        if (selectedHeadOption === "YesHead") {
-            standardDeductionValue = standardDeduction.head_of_household
-            taxRefund = taxBracket.head_of_household
-        }
-        if (selectedOption === "YesJoint") {
-            standardDeductionValue = standardDeduction.married_filing_jointly
-            taxRefund = taxBracket.married_filing_jointly
-        }
-        if (selectedOption === "NoJoint") {
-            standardDeductionValue = standardDeduction.married_filing_separately
-            taxRefund = taxBracket.married_filing_separately
-        }
     }
-    // if (selectedHeadOption === "YesHead") {
-    //     standardDeductionValue = standardDeduction.head_of_household
-    // }
-    // if (selectedHeadOption === "NoHead") {
-    //     if (selectedMarialStatusOption === "Single") {
-    //         standardDeductionValue = standardDeduction.single
-    //     }
-    //     if (selectedMarialStatusOption === "Married") {
+    if (dataFromChild === "Head_of_Household") {
+        standardDeductionValue = standardDeduction.head_of_household
+    }
+    if (dataFromChild === "Married_Filing_Jointly") {
+        standardDeductionValue = standardDeduction.married_filing_jointly
+    }
+    if (dataFromChild === "Married_Filing_Separately") {
+        standardDeductionValue = standardDeduction.married_filing_separately
+    }
+    estimateTaxableIncome = inputValue - standardDeductionValue
+    taxRate = estimateTaxableIncome
+    Refund = federalInputValue - accumulatedTax
+    useEffect(() => {
+        function calculateTax() {
+            let result = { taxBracket: "", accumulatedTax: 0 };
+            if (dataFromChild === "Single") {
+                result = calculateSingleTax(estimateTaxableIncome);
+            } else if (dataFromChild === "Head_of_Household") {
+                result = calculateHeadOfHouseholdTax(estimateTaxableIncome);
+            } else if (dataFromChild === "Married_Filing_Jointly") {
+                result = calculateMarriedFilingJoinlyTax(estimateTaxableIncome);
+            } else if (dataFromChild === "Married_Filing_Separately") {
+                result = calculateMarriedFilingSeparatelyTax(estimateTaxableIncome);
+            }
+            setTaxBracket(result.taxBracket);
+            setAccumulatedTax(result.accumulatedTax);
+        }
+        calculateTax();
 
-    //     }
-    // }
-    let estimateTaxableIncome = inputValue - standardDeductionValue
-    let taxRate = estimateTaxableIncome
-    let Refund = federalInputValue - taxRefund
+    }, [estimateTaxableIncome, dataFromChild]);
+
     return (
 
         <div className="container w-75 mb-5">
             <div className='row'>
                 <div className='col-8 bg-clear border-5 rounded p-3 m-3 shadow-lg'>
                     <div >
-                        <span>
+                        <FileStatus onDataFromChild={handleDataFromChild} />
+                        {/* <span>
                             Will you file as single or married?
                         </span>
                         <div>
@@ -83,7 +118,7 @@ export default function TaxForm() {
                                 checked={selectedMarialStatusOption === "Married"}
                                 onChange={handleOptionMarialStatusChange} /> Married
 
-                        </div>
+                        </div> */}
                     </div>
                     {selectedMarialStatusOption === "Married" && (
                         <React.Fragment>
@@ -198,12 +233,19 @@ export default function TaxForm() {
                         <h6>
                             Estimated Taxable Income:
                         </h6>
-                        <h1 className=''>${taxRate}</h1>
+                        <h1 className=''>${taxRate.toLocaleString("en-US", { minimumFractionDigits: 2 })}</h1>
                         <hr></hr>
+
+                        <span>Total Tax Due</span>
+                        <h2> {accumulatedTax.toLocaleString("en-US", { minimumFractionDigits: 2 })}</h2>
+                        <hr />
                         <h6>
-                            Refund:
+                            Refund/(Payment):
                         </h6>
-                        <h1>$ {Refund}</h1>
+                        <h1>$ {Refund.toLocaleString("en-US", { minimumFractionDigits: 2 })}</h1>
+                        <hr />
+                        <h6>Marginal Tax Rate</h6>
+                        <h1>{taxBracket}</h1>
                     </div>
 
 
