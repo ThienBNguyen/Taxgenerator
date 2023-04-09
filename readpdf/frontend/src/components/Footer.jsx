@@ -1,7 +1,7 @@
 import React from 'react'
 import { Container, Row, Col } from 'react-bootstrap';
 import './footer.css'
-export default function footer() {
+export default function Footer() {
     return (
         <div >
             <div className='footer text-center bg-dark text-white-50 pt-4'>
