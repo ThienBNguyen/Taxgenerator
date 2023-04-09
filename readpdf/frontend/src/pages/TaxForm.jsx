@@ -236,13 +236,19 @@ export default function TaxForm() {
                         <h1 className=''>${taxRate.toLocaleString("en-US", { minimumFractionDigits: 2 })}</h1>
                         <hr></hr>
 
-                        <span>Total Tax Due</span>
-                        <h2> {accumulatedTax.toLocaleString("en-US", { minimumFractionDigits: 2 })}</h2>
+                        <h6>Total Tax Due</h6>
+                        <h1> {accumulatedTax.toLocaleString("en-US", { minimumFractionDigits: 2 })}</h1>
                         <hr />
                         <h6>
                             Refund/(Payment):
                         </h6>
-                        <h1>$ {Refund.toLocaleString("en-US", { minimumFractionDigits: 2 })}</h1>
+
+                        {Refund < 0 ? (
+                            <h1 className='text-danger'>$ {Refund.toLocaleString("en-US", { minimumFractionDigits: 2 })}</h1>
+                        ) : (
+                            <h1 className='text-success'>$ {Refund.toLocaleString("en-US", { minimumFractionDigits: 2 })}</h1>
+                        )}
+                        {/* <h1 className='text-success'>$ {Refund.toLocaleString("en-US", { minimumFractionDigits: 2 })}</h1> */}
                         <hr />
                         <h6>Marginal Tax Rate</h6>
                         <h1>{taxBracket}</h1>
