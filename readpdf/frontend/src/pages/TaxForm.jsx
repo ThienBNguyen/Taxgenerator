@@ -4,9 +4,9 @@ import FileStatus from './FileStatus';
 import { calculateSingleTax, calculateHeadOfHouseholdTax, calculateMarriedFilingSeparatelyTax, calculateMarriedFilingJoinlyTax } from "../services/TaxBracketCal";
 export default function TaxForm() {
     const [inputValue, setInputValue] = useState("");
-    const [selectedHeadOption, setSelectedHeadOption] = useState("");
-    const [selectedOption, setSelectedOption] = useState("");
-    const [selectedMarialStatusOption, setSelectedMarialStatusOption] = useState("");
+    // const [selectedHeadOption, setSelectedHeadOption] = useState("");
+    // const [selectedOption, setSelectedOption] = useState("");
+    // const [selectedMarialStatusOption, setSelectedMarialStatusOption] = useState("");
     const [federalInputValue, setFederalInputValue] = useState("");
     const [taxBracket, setTaxBracket] = useState("");
     const [accumulatedTax, setAccumulatedTax] = useState(0);
@@ -25,17 +25,17 @@ export default function TaxForm() {
     let standardDeduction = { "single": 12950, "head_of_household": 19400, "married_filing_jointly": 25900, "married_filing_separately": 12950, "Qualifying_widower": 25900 }
 
 
-    const handleOptionChange = (event) => {
-        setSelectedOption(event.target.value);
-    };
+    // const handleOptionChange = (event) => {
+    //     setSelectedOption(event.target.value);
+    // };
 
-    const handleHeadOptionChange = (event) => {
-        setSelectedHeadOption(event.target.value);
-    };
+    // const handleHeadOptionChange = (event) => {
+    //     setSelectedHeadOption(event.target.value);
+    // };
 
-    const handleOptionMarialStatusChange = (event) => {
-        setSelectedMarialStatusOption(event.target.value);
-    };
+    // const handleOptionMarialStatusChange = (event) => {
+    //     setSelectedMarialStatusOption(event.target.value);
+    // };
     const handleInputChange = (event) => {
         setInputValue(event.target.value);
     };
@@ -120,7 +120,7 @@ export default function TaxForm() {
 
                         </div> */}
                     </div>
-                    {selectedMarialStatusOption === "Married" && (
+                    {/* {selectedMarialStatusOption === "Married" && (
                         <React.Fragment>
                             <div>
                                 <span>
@@ -164,7 +164,7 @@ export default function TaxForm() {
                             </div>
                         </React.Fragment>
 
-                    )}
+                    )} */}
                     {/* for dependent */}
                     {/* <div >
                         <span>
