@@ -1,10 +1,10 @@
 import React from 'react'
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
-import Form from 'react-bootstrap/Form';
+// import Form from 'react-bootstrap/Form';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
-import NavDropdown from 'react-bootstrap/NavDropdown';
+// import NavDropdown from 'react-bootstrap/NavDropdown';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 export default function header() {
     return (
@@ -26,7 +26,7 @@ export default function header() {
                             </Offcanvas.Header>
                             <Offcanvas.Body>
                                 <Nav className="justify-content-end flex-grow-1 pe-3">
-                                    <Nav.Link href="#action1"><Button variant="outline-light">Sign in </Button></Nav.Link>
+                                    <Nav.Link href="#action1"><Button variant="outline-dark">Sign in </Button></Nav.Link>
                                     <Nav.Link href="#action2"><Button variant="primary">Get Started</Button></Nav.Link>
 
                                 </Nav>
