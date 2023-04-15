@@ -202,7 +202,6 @@ export default function TaxForm() {
                         </div>
 
                     </div> */}
-                    {/* tax and wage value */}
                     <div>
                         <div>
                             <span>
@@ -243,7 +242,6 @@ export default function TaxForm() {
                         ) : (
                             <h1 className='text-success'>$ {Refund.toLocaleString("en-US", { minimumFractionDigits: 2 })}</h1>
                         )}
-                        {/* <h1 className='text-success'>$ {Refund.toLocaleString("en-US", { minimumFractionDigits: 2 })}</h1> */}
                         <hr />
                         <h6>Marginal Tax Rate</h6>
                         <h1>{taxBracket}</h1>
@@ -252,14 +250,6 @@ export default function TaxForm() {
 
                 </div>
             </div>
-
-
-
-            {/* {selectedMarialStatusOption}<br></br>
-
-            {selectedOption}<br></br>
-            {selectedHeadOption}<br></br>
-            {standardDeductionValue} */}
 
 
 

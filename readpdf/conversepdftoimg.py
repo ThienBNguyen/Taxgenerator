@@ -15,7 +15,7 @@ def convert_pdf(pdf_path, save_dir, res = 400):
     # for idx, page in enumerate(pages):
     #     print(page)
     #     page.save(f'{save_dir}/{name}_{idx}.png', 'PNG')
-    pages[0].save(f'{save_dir}/{name}.jpg', 'JPEG')
+    pages[0].save(f'{save_dir}/{name}.png', 'PNG')
 # run this function to convert pdf to img
 with lock:
     convert_pdf(
