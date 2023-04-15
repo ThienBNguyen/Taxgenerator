@@ -2,13 +2,13 @@ import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./clarifyStatus.css"
 import DependentQuestion from "./DependentQuestion";
-import QuestionForms from "../components/questionforms/QuestionForms";
+// import QuestionForms from "../components/questionforms/QuestionForms";
 export default function ClarifyStatus({ handleChildData }) {
     const [isCheckedClaimAsDependent, setIsCheckedClaimAsDependent] = useState(false);
     const [areYouMarried, setAreYouMarried] = useState(false);
     const [doYouHaveAnyDependent, setDoYouHaveAnyDependent] = useState(false);
-    const [willYouFiledMarriedJointly, setWillYouFiledMarriedJointly] = useState(false);
-    const [showAdditionalQuestions, setShowAdditionalQuestions] = useState(false);
+    // const [willYouFiledMarriedJointly, setWillYouFiledMarriedJointly] = useState(false);
+    // const [showAdditionalQuestions, setShowAdditionalQuestions] = useState(false);
     const [showAreYouMarriedQuestions, setShowAreYouMarriedQuestions] = useState(false);
     const [showMarriedJointly, setShowMarriedJointly] = useState("");
     const [showDoYouHaveDependent, setShowDoYouHaveDependent] = useState("");
@@ -29,6 +29,7 @@ export default function ClarifyStatus({ handleChildData }) {
         if (value === "yes") {
             setShowAreYouMarriedQuestions(false);
         }
+        console.log(isCheckedClaimAsDependent, areYouMarried, doYouHaveAnyDependent);
     };
     const handleAreYouMarried = (value) => {
 
@@ -127,7 +128,6 @@ export default function ClarifyStatus({ handleChildData }) {
                     null
                 )}
             </div> */}
-
             {/* <SwitchButton /> */}
         </div>
 

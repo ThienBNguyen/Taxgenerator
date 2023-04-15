@@ -1,5 +1,5 @@
-import { useCallback, useEffect, useState } from 'react';
-import { createWorker } from 'tesseract.js';
+import { useState } from 'react';
+// import { createWorker } from 'tesseract.js';
 import Tesseract from 'tesseract.js';
 import './FileForm.css';
 export default function FileForm() {
@@ -11,19 +11,19 @@ export default function FileForm() {
 
     // const worker = createWorker({
     // });
-    const convertImageToText = useCallback(async () => {
-        if (!selectedImage) return;
-        // await worker.loadLanguage('eng');
-        // await worker.initialize('eng');
-        const {
-            data: { text },
-        } = await Tesseract.recognize(selectedImage);
-        // const { data } = await worker.recognize(selectedImage);
-        // setTextResult(data.text);
-        // const { data: { text } } = await worker.recognize('https://tesseract.projectnaptha.com/img/eng_bw.png');
-        console.log(text);
-        setTextResult(text);
-    }, [selectedImage]);
+    // const convertImageToText = useCallback(async () => {
+    //     if (!selectedImage) return;
+    //     // await worker.loadLanguage('eng');
+    //     // await worker.initialize('eng');
+    //     const {
+    //         data: { text },
+    //     } = await Tesseract.recognize(selectedImage);
+    //     // const { data } = await worker.recognize(selectedImage);
+    //     // setTextResult(data.text);
+    //     // const { data: { text } } = await worker.recognize('https://tesseract.projectnaptha.com/img/eng_bw.png');
+    //     console.log(text);
+    //     setTextResult(text);
+    // }, [selectedImage]);
     const convertImageToText1 = async () => {
         // if (!imageData) return;
         // worker.loadLanguage
