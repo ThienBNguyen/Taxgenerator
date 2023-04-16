@@ -1,41 +1,77 @@
 import React, { useState, useEffect } from 'react'
 import './taxForm.css'
+
 import FileStatus from './FileStatus';
 import { calculateSingleTax, calculateHeadOfHouseholdTax, calculateMarriedFilingSeparatelyTax, calculateMarriedFilingJoinlyTax } from "../services/TaxBracketCal";
+import { calculateMarriedFilingSeparatelyDependenceTax } from "../services/TaxcalCulationWithDependency";
 export default function TaxForm() {
     const [inputValue, setInputValue] = useState("");
-    // const [selectedHeadOption, setSelectedHeadOption] = useState("");
-    // const [selectedOption, setSelectedOption] = useState("");
-    // const [selectedMarialStatusOption, setSelectedMarialStatusOption] = useState("");
     const [federalInputValue, setFederalInputValue] = useState("");
     const [taxBracket, setTaxBracket] = useState("");
     const [accumulatedTax, setAccumulatedTax] = useState(0);
+    const [otherTax, setOtherTax] = useState(0);
+    const [totalTaxDue, setTotalTaxDue] = useState(0);
+    console.log(setOtherTax);
+    console.log(calculateMarriedFilingJoinlyTax);
     const [dataFromChild, setDataFromChild] = useState("");
+    const [dependentChildData, setDependentChildData] = useState("");
+    const [dependentChildOver17Data, setDependentChildOver17Data] = useState("");
+
+    console.log(dependentChildOver17Data);
+    console.log(dependentChildData);
+
     function handleDataFromChild(data) {
         setDataFromChild(data);
     }
-    // let standardDeductionValue = 0
-    // let taxRate=0;
+    const handleDependentChildData = (data) => {
+        setDependentChildData(data);
+    };
+    const handleDependentOver17FromTaxForm = (data) => {
+        setDependentChildOver17Data(data);
+    };
+
+
     let estimateTaxableIncome = 0;
     let Refund = 0;
     let standardDeductionValue = 0;
     let taxRate = 0
-    // let standardDeduction = { "single": 13850, "head_of_household": 20800, "married_filing_jointly": 27700, "married_filing_separately": 13850, "Qualifying_widower": 27700 }
-    // let taxBracket = { "single": 2932, "head_of_household": 2011, "married_filing_jointly": 1230, "married_filing_separately": 2932, "Qualifying_widower": 1230 }
+    let allDependentExemption = 0
     let standardDeduction = { "single": 12950, "head_of_household": 19400, "married_filing_jointly": 25900, "married_filing_separately": 12950, "Qualifying_widower": 25900 }
 
 
-    // const handleOptionChange = (event) => {
-    //     setSelectedOption(event.target.value);
-    // };
 
-    // const handleHeadOptionChange = (event) => {
-    //     setSelectedHeadOption(event.target.value);
-    // };
+    // calculate dependent credit 
+    // console.log(dependentChildOver17Data);
+    const calculateDependentCredit = (numDependents, numDependentsOver17) => {
+        // console.log(dependentsOver17, '17');
+        // console.log(numDependents, 'under');
+        // let sum = 0;
+        // const numDependentsOver17 = parseInt(dependentsOver17);
 
-    // const handleOptionMarialStatusChange = (event) => {
-    //     setSelectedMarialStatusOption(event.target.value);
-    // };
+        // let taxCredits = 0; 
+        let dependentExemptionOver17 = 0;
+        let dependentExemption = 0
+        if (numDependents === 0) {
+            dependentExemption = 0;
+        } else if (numDependents === 1) {
+            dependentExemption = 2000;
+        } else {
+            dependentExemption = 2000 + (numDependents - 1) * 2000;
+        }
+        if (numDependentsOver17 === 0) {
+            dependentExemptionOver17 = 0;
+        } else if (numDependentsOver17 === 1) {
+            dependentExemptionOver17 = 500;
+        } else {
+            dependentExemptionOver17 = 500 + (numDependentsOver17 - 1) * 500;
+        }
+        allDependentExemption = dependentExemption + dependentExemptionOver17
+        return allDependentExemption
+
+    }
+
+
+    calculateDependentCredit(dependentChildData, dependentChildOver17Data)
     const handleInputChange = (event) => {
         setInputValue(event.target.value);
     };
@@ -43,23 +79,7 @@ export default function TaxForm() {
     const handleFederalInputChange = (event) => {
         setFederalInputValue(event.target.value);
     };
-    // if (selectedMarialStatusOption === "Single") {
-    //     standardDeductionValue = standardDeduction.single
-    //     // taxRefund = taxBracket.single
-    // } else if (selectedMarialStatusOption === "Married") {
-    //     if (selectedHeadOption === "YesHead") {
-    //         standardDeductionValue = standardDeduction.head_of_household
-    //         // taxRefund = taxBracket.head_of_household
-    //     }
-    //     if (selectedOption === "YesJoint") {
-    //         standardDeductionValue = standardDeduction.married_filing_jointly
-    //         // taxRefund = taxBracket.married_filing_jointly
-    //     }
-    //     if (selectedOption === "NoJoint") {
-    //         standardDeductionValue = standardDeduction.married_filing_separately
-    //         // taxRefund = taxBracket.married_filing_separately
-    //     }
-    // }
+
     if (dataFromChild === "Single") {
         standardDeductionValue = standardDeduction.single
     }
@@ -71,6 +91,7 @@ export default function TaxForm() {
     }
     if (dataFromChild === "Married_Filing_Separately") {
         standardDeductionValue = standardDeduction.married_filing_separately
+        // standardDeductionValue = standardDeduction
     }
     estimateTaxableIncome = inputValue - standardDeductionValue
     taxRate = estimateTaxableIncome
@@ -83,12 +104,16 @@ export default function TaxForm() {
             } else if (dataFromChild === "Head_of_Household") {
                 result = calculateHeadOfHouseholdTax(estimateTaxableIncome);
             } else if (dataFromChild === "Married_Filing_Jointly") {
-                result = calculateMarriedFilingJoinlyTax(estimateTaxableIncome);
+                // result = calculateMarriedFilingJoinlyTax(estimateTaxableIncome);
+                result = calculateMarriedFilingSeparatelyDependenceTax(estimateTaxableIncome, dependentChildData)
             } else if (dataFromChild === "Married_Filing_Separately") {
                 result = calculateMarriedFilingSeparatelyTax(estimateTaxableIncome);
             }
             setTaxBracket(result.taxBracket);
             setAccumulatedTax(result.accumulatedTax);
+
+            let test = accumulatedTax + otherTax
+            setTotalTaxDue(test)
         }
         calculateTax();
 
@@ -96,116 +121,18 @@ export default function TaxForm() {
 
     return (
 
-        <div className="container w-75 mb-5">
+        <div className="container-fluid w-75 mb-5">
+            {/* test */}
+
             <div className='row'>
-                <div className='col-8 bg-clear border-5 rounded p-3 m-3 shadow-lg'>
+                <div className='col-sm-12 col-lg-6 bg-clear border-5 rounded p-3 m-3 shadow-lg'>
                     <div >
-                        <FileStatus onDataFromChild={handleDataFromChild} />
-                        {/* <span>
-                            Will you file as single or married?
-                        </span>
-                        <div>
-                            <input type="checkbox"
-                                name="options"
-                                value="Single"
-                                checked={selectedMarialStatusOption === "Single"}
-                                onChange={handleOptionMarialStatusChange} /> Single
-                        </div>
-                        <div>
-                            <input type="checkbox"
-                                name="options"
-                                value="Married"
-                                checked={selectedMarialStatusOption === "Married"}
-                                onChange={handleOptionMarialStatusChange} /> Married
-
-                        </div> */}
+                        <FileStatus onDataFromChild={handleDataFromChild} dependentDataFromChild={handleDependentChildData} handleDependentOver17FromTaxForm={handleDependentOver17FromTaxForm} />
                     </div>
-                    {/* {selectedMarialStatusOption === "Married" && (
-                        <React.Fragment>
-                            <div>
-                                <span>
-                                    If married, will you file the return jointly with your spouse?
-                                </span>
-                                <div>
-                                    <input type="checkbox"
-                                        name="options"
-                                        value="YesJoint"
-                                        checked={selectedOption === "YesJoint"}
-                                        onChange={handleOptionChange} /> Yes
-                                </div>
-                                <div>
-                                    <input type="checkbox"
-                                        name="options"
-                                        value="NoJoint"
-                                        checked={selectedOption === "NoJoint"}
-                                        onChange={handleOptionChange} /> No
-
-                                </div>
-                            </div>
-                            <div>
-                                <span>
-                                    Are you the head of household?
-                                </span>
-                                <div>
-                                    <input type="checkbox"
-                                        name="options"
-                                        value="YesHead"
-                                        checked={selectedHeadOption === "YesHead"}
-                                        onChange={handleHeadOptionChange} /> Yes
-                                </div>
-                                <div>
-                                    <input type="checkbox"
-                                        name="options"
-                                        value="NoHead"
-                                        checked={selectedHeadOption === "NoHead"}
-                                        onChange={handleHeadOptionChange} /> No
-
-                                </div>
-                            </div>
-                        </React.Fragment>
-
-                    )} */}
-                    {/* for dependent */}
-                    {/* <div >
-                        <span>
-                            Dependents
-                        </span>
-                        <div className='row' >
-                            <div className='col-6'>
-                                <span>Number of dependents</span>
-                                <br />
-                                <input className='w-100 rounder'
-                                    type="text"
-                                    name="options"
-                                    value="0"
-                                    checked={selectedMarialStatusOption === "Single"}
-                                    onChange={handleOptionMarialStatusChange} />
-                            </div>
-                            <div className='col-6'>
-                                <span>Under age 17</span>
-                                <br />
-                                <input className='w-100 rounder' type="text"
-                                    name="options"
-                                    value="0"
-                                    checked={selectedMarialStatusOption === "Single"}
-                                    onChange={handleOptionMarialStatusChange} />
-                            </div>
-                            <div className='col-6'>
-                                <span>Full-time students age 17-23</span>
-                                <br />
-                                <input className='w-100 rounder' type="text"
-                                    name="options"
-                                    value="0"
-                                    checked={selectedMarialStatusOption === "Single"}
-                                    onChange={handleOptionMarialStatusChange} />
-                            </div>
-                        </div>
-
-                    </div> */}
                     <div>
                         <div>
                             <span>
-                                Enter your Gross Paid amount (YTD)
+                                Enter your Gross Paid amount (YTD) or Form W-2 Box 1
                             </span>
                             <div>
                                 <input type="text" value={inputValue} onChange={handleInputChange} />
@@ -213,7 +140,7 @@ export default function TaxForm() {
                         </div>
                         <div>
                             <span>
-                                Enter your Federal Income Tax Withholding (YTD)
+                                Enter your Federal Income Tax Withholding (YTD) or Form W-2 Box 5
                             </span>
                             <div>
                                 <input type="text" value={federalInputValue} onChange={handleFederalInputChange} />
@@ -222,7 +149,7 @@ export default function TaxForm() {
                         </div>
                     </div>
                 </div>
-                <div className=' taxOuterPanel col bg-clear border-2 rounded  p-3 m-3 shadow-lg text-center'>
+                <div className=' taxOuterPanel col-sm-12 col-lg-4 bg-clear border-2 rounded  p-3 m-3 shadow-lg text-center'>
                     <div className=' taxPanel ml-4 p-4' >
                         <h6>
                             Estimated Taxable Income:
@@ -230,8 +157,19 @@ export default function TaxForm() {
                         <h1 className=''>${taxRate.toLocaleString("en-US", { minimumFractionDigits: 2 })}</h1>
                         <hr></hr>
 
-                        <h6>Total Tax Due</h6>
+                        <h6>Tax Due</h6>
                         <h1> {accumulatedTax.toLocaleString("en-US", { minimumFractionDigits: 2 })}</h1>
+                        <hr />
+                        {/* self-employment tax */}
+                        <h6>Other Taxes</h6>
+                        <h1> {otherTax.toLocaleString("en-US", { minimumFractionDigits: 2 })}</h1>
+                        <hr />
+                        <h6>Total Tax Due</h6>
+                        <h1> {totalTaxDue.toLocaleString("en-US", { minimumFractionDigits: 2 })}</h1>
+                        <hr />
+                        {/* dependence child  */}
+                        <h6>Credits</h6>
+                        <h1> {allDependentExemption.toLocaleString("en-US", { minimumFractionDigits: 2 })}</h1>
                         <hr />
                         <h6>
                             Refund/(Payment):

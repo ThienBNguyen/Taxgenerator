@@ -3,20 +3,31 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./clarifyStatus.css"
 import DependentQuestion from "./DependentQuestion";
 // import QuestionForms from "../components/questionforms/QuestionForms";
-export default function ClarifyStatus({ handleChildData }) {
+export default function ClarifyStatus(props) {
+    const [dependentData, setDependentData] = useState("");
+    const [dependentOver17Data, setDependentOver17Data] = useState("");
     const [isCheckedClaimAsDependent, setIsCheckedClaimAsDependent] = useState(false);
     const [areYouMarried, setAreYouMarried] = useState(false);
     const [doYouHaveAnyDependent, setDoYouHaveAnyDependent] = useState(false);
-    // const [willYouFiledMarriedJointly, setWillYouFiledMarriedJointly] = useState(false);
-    // const [showAdditionalQuestions, setShowAdditionalQuestions] = useState(false);
     const [showAreYouMarriedQuestions, setShowAreYouMarriedQuestions] = useState(false);
     const [showMarriedJointly, setShowMarriedJointly] = useState("");
     const [showDoYouHaveDependent, setShowDoYouHaveDependent] = useState("");
     const [showDependentForm, setShowDependentForm] = useState("");
+    const { handleChildData } = props
+    const handleDependentData = (data) => {
+        setDependentData(data);
+    };
+    const handleDependentOver17Data = (data) => {
+        setDependentOver17Data(data);
+    };
+    // console.log(dependentOver17Data);
+    props.handleDependentDataFromFile(dependentData)
+    props.handleDependentOver17DataFromFileStatus(dependentOver17Data)
     // const handleOptionMarialStatusChange = (event) => {
     //     setSelectedOption(event.target.value);
     //     setShowAdditionalQuestions(true);
     // };
+    // console.log(props.selectedFillingStatusOption);
     const sendDataToParent = (filingstatus) => {
         handleChildData(filingstatus);
     };
@@ -32,14 +43,15 @@ export default function ClarifyStatus({ handleChildData }) {
         console.log(isCheckedClaimAsDependent, areYouMarried, doYouHaveAnyDependent);
     };
     const handleAreYouMarried = (value) => {
-
+        setShowDoYouHaveDependent(true);
         if (value === "no") {
             setAreYouMarried(value === "no");
-            setShowMarriedJointly(false);
+            setShowDoYouHaveDependent(true);
         }
         if (value === "yes") {
             setAreYouMarried(value === "yes");
-            setShowMarriedJointly(true);
+            setShowMarriedJointly(true)
+            setShowDoYouHaveDependent(true);
         }
     };
 
@@ -68,25 +80,25 @@ export default function ClarifyStatus({ handleChildData }) {
 
     return (
         <div>
-
-            <div className='mb-2'>Can someone claim you as a dependent?</div>
-            <div className='mb-2'>
-                <div class="form-check form-switch">
-                    <button onClick={() => handleClaimAsDependent("yes")}>Yes</button>
-                    <button onClick={() => handleClaimAsDependent("no")}>No</button>
-                </div>
-            </div>
-
-
+            {props.selectedFillingStatusOption === 'Unknown' &&
+                (
+                    <div><div className='mb-2'>Can someone claim you as a dependent?</div>
+                        <div className='mb-2'>
+                            <div class=" ">
+                                <button type="button" class="btn btn-primary me-3 px-3" onClick={() => handleClaimAsDependent("yes")}>Yes</button>
+                                <button type="button" class="btn btn-primary me-3 px-3" onClick={() => handleClaimAsDependent("no")}>No</button>
+                            </div>
+                        </div></div>
+                )
+            }
             {showAreYouMarriedQuestions && (
-
                 <div>
                     < div className='mb-2' > Are you married?</div >
                     <div className='mb-2'>
-                        <div class="form-check form-switch">
+                        <div class="">
 
-                            <button onClick={() => handleAreYouMarried("yes")}>Yes</button>
-                            <button onClick={() => handleAreYouMarried("no")}>No</button>
+                            <button type="button" class="btn btn-primary me-3 px-3" onClick={() => handleAreYouMarried("yes")}>Yes</button>
+                            <button type="button" class="btn btn-primary me-3 px-3" onClick={() => handleAreYouMarried("no")}>No</button>
                         </div>
                     </div>
                 </div>
@@ -96,39 +108,30 @@ export default function ClarifyStatus({ handleChildData }) {
                     <div>
                         < div className='mb-2' > Will you filed married Jointly?</div >
                         <div className='mb-2'>
-                            <div class="form-check form-switch">
-                                <button onClick={() => handleFiledMarriedJointly("yesMarriedJointly")}>Yes</button>
-                                <button onClick={() => handleFiledMarriedJointly("noMarriedJointly")}>No</button>
+                            <div class="">
+                                <button class="btn btn-primary me-3 px-3" onClick={() => handleFiledMarriedJointly("yesMarriedJointly")}>Yes</button>
+                                <button class="btn btn-primary me-3 px-3" onClick={() => handleFiledMarriedJointly("noMarriedJointly")}>No</button>
                             </div>
                         </div>
                     </div>
                 )
             }
             {
-                showDoYouHaveDependent && (
+                showDoYouHaveDependent || props.selectedFillingStatusOption === "Married_Filing_Jointly" || props.selectedFillingStatusOption === "Married_Filing_Separately" ? (
                     <div>
                         < div className='mb-2' > Do you have any dependent?</div >
                         <div className='mb-2'>
-                            <div class="form-check form-switch">
-                                <button onClick={() => handleShowDoYouHaveDependent("yesDoYouHaveAnyDependent")}>Yes</button>
-                                <button onClick={() => handleShowDoYouHaveDependent("noDoYouHaveAnyDependent")}>No</button>
+                            <div class="">
+                                <button type="button" class="btn btn-primary me-3 px-3" onClick={() => handleShowDoYouHaveDependent("yesDoYouHaveAnyDependent")}>Yes</button>
+                                <button type="button" class="btn btn-primary me-3 px-3" onClick={() => handleShowDoYouHaveDependent("noDoYouHaveAnyDependent")}>No</button>
                             </div>
                         </div>
                     </div>
-                )
+                ) : null}
+            {showDependentForm || props.selectedFillingStatusOption === "Head_of_Household" ? (
+                <DependentQuestion handleDependentOver17Data={handleDependentOver17Data} handleChildData={handleDependentData} />
+            ) : null}
 
-            }
-            {showDependentForm && (
-                <DependentQuestion />
-            )}
-            {/* <div>
-                {showAdditionalQuestions ? (
-                    <DependentQuestion />
-                ) : (
-                    null
-                )}
-            </div> */}
-            {/* <SwitchButton /> */}
         </div>
 
     )

@@ -5,6 +5,21 @@ export default function FileStatus(props) {
     // const [data, setData] = useState("");
     const [selectedFillingStatusOption, setSelectedFillingStatusOption] = useState("");
     const [showAdditionalQuestions, setShowAdditionalQuestions] = useState(false);
+    const [DependentData, setDependentData] = useState("");
+    const [dependentOver17Data, setDependentOver17Data] = useState("");
+    console.log(showAdditionalQuestions);
+    const handleDependentData = (data) => {
+        setDependentData(data);
+    };
+    const handleDependentOver17DataFromFileStatus = (data) => {
+
+        setDependentOver17Data(data);
+    };
+    props.handleDependentOver17FromTaxForm(dependentOver17Data)
+    props.dependentDataFromChild(DependentData)
+    // props.dependentDataFromChild()
+    //not use variable 
+    // console.log(showAdditionalQuestions);
     const handleOptionFillingStatusChange = (event) => {
         setSelectedFillingStatusOption(event.target.value);
         props.onDataFromChild(event.target.value)
@@ -16,8 +31,8 @@ export default function FileStatus(props) {
         }
 
     };
+
     const handleChildData = (childData) => {
-        console.log(childData);
         if (childData === 'yes') {
             props.onDataFromChild('Single')
             setSelectedFillingStatusOption('Single')
@@ -35,16 +50,16 @@ export default function FileStatus(props) {
             setSelectedFillingStatusOption('Married_Filing_Separately')
         }
         if (childData === 'yesDoYouHaveAnyDependent') {
-            props.onDataFromChild('Head_of_Household')
-            setSelectedFillingStatusOption('Head_of_Household')
+            props.onDataFromChild('Married_Filing_Jointly')
+            setSelectedFillingStatusOption('Married_Filing_Jointly')
         }
         if (childData === 'noDoYouHaveAnyDependent') {
-            props.onDataFromChild('Single')
-            setSelectedFillingStatusOption('Single')
+            props.onDataFromChild('Married_Filing_Jointly')
+            setSelectedFillingStatusOption('Married_Filing_Jointly')
         }
 
     };
-
+    // console.log(selectedFillingStatusOption);
     return (
         <div className='mb-3'><div className='mb-2'>Select your filing status for 2022 below</div>
             <div className='mb-2'>
@@ -85,9 +100,10 @@ export default function FileStatus(props) {
                     checked={selectedFillingStatusOption === "Unknown"}
                     onChange={handleOptionFillingStatusChange} /> Unknown
             </div>
-            {showAdditionalQuestions && (
-                <ClarifyStatus handleChildData={handleChildData} />
-            )}
+            {/* {showAdditionalQuestions && ( */}
+            <ClarifyStatus handleChildData={handleChildData} handleDependentDataFromFile={handleDependentData} handleDependentOver17DataFromFileStatus={handleDependentOver17DataFromFileStatus} selectedFillingStatusOption={selectedFillingStatusOption} />
+            {/* )} */}
+
 
         </div>
     )
