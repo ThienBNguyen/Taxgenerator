@@ -3,7 +3,7 @@ import './taxForm.css'
 
 import FileStatus from './FileStatus';
 import { calculateSingleTax, calculateHeadOfHouseholdTax, calculateMarriedFilingSeparatelyTax, calculateMarriedFilingJoinlyTax } from "../services/TaxBracketCal";
-import { calculateMarriedFilingSeparatelyDependenceTax } from "../services/TaxcalCulationWithDependency";
+// import { calculateMarriedFilingSeparatelyDependenceTax } from "../services/TaxcalCulationWithDependency";
 export default function TaxForm() {
     const [inputValue, setInputValue] = useState("");
     const [federalInputValue, setFederalInputValue] = useState("");
@@ -37,18 +37,7 @@ export default function TaxForm() {
     let taxRate = 0
     let allDependentExemption = 0
     let standardDeduction = { "single": 12950, "head_of_household": 19400, "married_filing_jointly": 25900, "married_filing_separately": 12950, "Qualifying_widower": 25900 }
-
-
-
-    // calculate dependent credit 
-    // console.log(dependentChildOver17Data);
     const calculateDependentCredit = (numDependents, numDependentsOver17) => {
-        // console.log(dependentsOver17, '17');
-        // console.log(numDependents, 'under');
-        // let sum = 0;
-        // const numDependentsOver17 = parseInt(dependentsOver17);
-
-        // let taxCredits = 0; 
         let dependentExemptionOver17 = 0;
         let dependentExemption = 0
         if (numDependents === 0) {
@@ -104,8 +93,8 @@ export default function TaxForm() {
             } else if (dataFromChild === "Head_of_Household") {
                 result = calculateHeadOfHouseholdTax(estimateTaxableIncome);
             } else if (dataFromChild === "Married_Filing_Jointly") {
-                // result = calculateMarriedFilingJoinlyTax(estimateTaxableIncome);
-                result = calculateMarriedFilingSeparatelyDependenceTax(estimateTaxableIncome, dependentChildData)
+                result = calculateMarriedFilingJoinlyTax(estimateTaxableIncome);
+                // result = calculateMarriedFilingSeparatelyDependenceTax(estimateTaxableIncome, dependentChildData)
             } else if (dataFromChild === "Married_Filing_Separately") {
                 result = calculateMarriedFilingSeparatelyTax(estimateTaxableIncome);
             }
@@ -117,39 +106,44 @@ export default function TaxForm() {
         }
         calculateTax();
 
-    }, [estimateTaxableIncome, dataFromChild]);
+    }, [estimateTaxableIncome, dataFromChild, accumulatedTax, dependentChildData, otherTax]);
 
     return (
 
-        <div className="container-fluid w-75 mb-5">
-            {/* test */}
-
+        <div className="container py-4">
             <div className='row'>
-                <div className='col-sm-12 col-lg-6 bg-clear border-5 rounded p-3 m-3 shadow-lg'>
-                    <div >
-                        <FileStatus onDataFromChild={handleDataFromChild} dependentDataFromChild={handleDependentChildData} handleDependentOver17FromTaxForm={handleDependentOver17FromTaxForm} />
-                    </div>
-                    <div>
-                        <div>
-                            <span>
-                                Enter your Gross Paid amount (YTD) or Form W-2 Box 1
-                            </span>
-                            <div>
-                                <input type="text" value={inputValue} onChange={handleInputChange} />
+                <div className='col-sm-12 col-lg-7 bg-clear border-5  rounded p-3 shadow-lg '>
+                    <div className=''>
+                        <div >
+                            <FileStatus onDataFromChild={handleDataFromChild} dependentDataFromChild={handleDependentChildData} handleDependentOver17FromTaxForm={handleDependentOver17FromTaxForm} />
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6 col-sm-12">
+                                <span>
+                                    Enter your Gross Paid amount (YTD) or Form W-2 Box 1
+                                </span>
+                                <div>
+                                    <input type="text" value={inputValue} onChange={handleInputChange} placeholder="0" className='w-100 rounder' />
+                                </div>
                             </div>
                         </div>
-                        <div>
-                            <span>
-                                Enter your Federal Income Tax Withholding (YTD) or Form W-2 Box 5
-                            </span>
-                            <div>
-                                <input type="text" value={federalInputValue} onChange={handleFederalInputChange} />
-                            </div>
+                        <div class="row">
+                            <div class="col-lg-6 col-sm-12">
+                                <span>
+                                    Enter your Federal Income Tax Withholding (YTD) or Form W-2 Box 5
+                                </span>
+                                <div>
+                                    <input type="text" value={federalInputValue} onChange={handleFederalInputChange} placeholder="0" className='w-100 rounder ' />
+                                </div>
 
+                            </div>
                         </div>
                     </div>
+
+
                 </div>
-                <div className=' taxOuterPanel col-sm-12 col-lg-4 bg-clear border-2 rounded  p-3 m-3 shadow-lg text-center'>
+                <div class="d-block d-md-none mt-3"></div>
+                <div className=' taxOuterPanel col-sm-12 col-lg-4 ms-lg-3 bg-clear border-2 rounded  p-3  shadow-lg text-center'>
                     <div className=' taxPanel ml-4 p-4' >
                         <h6>
                             Estimated Taxable Income:
