@@ -7,7 +7,8 @@ export default function FileStatus(props) {
     const [showAdditionalQuestions, setShowAdditionalQuestions] = useState(false);
     const [DependentData, setDependentData] = useState("");
     const [dependentOver17Data, setDependentOver17Data] = useState("");
-    console.log(showAdditionalQuestions);
+    console.log(showAdditionalQuestions.valueOf.name);
+    console.log(selectedFillingStatusOption);
     const handleDependentData = (data) => {
         setDependentData(data);
     };
@@ -54,8 +55,14 @@ export default function FileStatus(props) {
             setSelectedFillingStatusOption('Married_Filing_Jointly')
         }
         if (childData === 'noDoYouHaveAnyDependent') {
-            props.onDataFromChild('Married_Filing_Jointly')
-            setSelectedFillingStatusOption('Married_Filing_Jointly')
+            if (selectedFillingStatusOption === 'Married_Filing_Separately') {
+                setSelectedFillingStatusOption('Married_Filing_Separately')
+                props.onDataFromChild('Married_Filing_Separately')
+            } else {
+                props.onDataFromChild('Married_Filing_Jointly')
+                setSelectedFillingStatusOption('Married_Filing_Jointly')
+            }
+
         }
 
     };

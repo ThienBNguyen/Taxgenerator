@@ -140,7 +140,6 @@ export default function TaxForm() {
                         </div>
                     </div>
 
-
                 </div>
                 <div class="d-block d-md-none mt-3"></div>
                 <div className=' taxOuterPanel col-sm-12 col-lg-4 ms-lg-3 bg-clear border-2 rounded  p-3  shadow-lg text-center'>
