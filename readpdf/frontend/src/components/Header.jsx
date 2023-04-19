@@ -13,7 +13,8 @@ export default function header() {
             {['sm'].map((expand) => (
                 <Navbar key={expand} expand={expand} className="bg-dark text-white-50">
                     <Container fluid>
-                        <Navbar.Brand href="#" className='text-white-50'>Tax Generator</Navbar.Brand>
+                        <Navbar.Brand className='text-white-50'> <Link
+                            to="/" className="text-decoration-none text-secondary " >Tax Generator</Link></Navbar.Brand>
                         <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-${expand}`} />
                         <Navbar.Offcanvas
                             id={`offcanvasNavbar-expand-${expand}`}
