@@ -10,13 +10,13 @@ export default function DonateForm() {
     return (
 
 
-        <div class="container w-50 mt-3 mb-3">
+        <div class="container w-md-50 w-100 mt-3 mb-3">
             <div class="  ">
                 <h2 class=" text-center ">Donate Info</h2>
                 <div class='row justify-content-center '>
-                    <button class="btn btn-info text-light col-2 me-2">$25</button>
-                    <button class="btn btn-info text-light col-2 me-2">$500</button>
-                    <button class="btn btn-info text-light col-2 me-2">$2500</button>
+                    <button class="btn btn-info text-light col-3 col-sm-2  me-2">$25</button>
+                    <button class="btn btn-info text-light col-3 col-sm-2  me-2">$500</button>
+                    <button class="btn btn-info text-light col-3 col-sm-2  me-2">$2500</button>
                     <div class='col-12 mt-2 d-flex justify-content-center text-center'>
                         <input type="text" className='w-50' placeholder="donation amount" />
 
