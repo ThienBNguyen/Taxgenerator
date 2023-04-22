@@ -1,6 +1,6 @@
 import React from 'react'
-import Header from '../../components/Header'
-import Footer from '../../components/Footer'
+import Header from '../../components/header/Header'
+import Footer from '../../components/footer/Footer'
 import DonateForm from './DonateForm'
 // import { Elements } from '@stripe/react-stripe-js';
 // import { loadStripe } from '@stripe/stripe-js';

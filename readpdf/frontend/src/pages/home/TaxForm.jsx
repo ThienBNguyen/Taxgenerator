@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import './taxForm.css'
-
 import FileStatus from './FileStatus';
-import { calculateSingleTax, calculateHeadOfHouseholdTax, calculateMarriedFilingSeparatelyTax, calculateMarriedFilingJoinlyTax } from "../services/TaxBracketCal";
+import { calculateSingleTax, calculateHeadOfHouseholdTax, calculateMarriedFilingSeparatelyTax, calculateMarriedFilingJoinlyTax } from "../../services/TaxBracketCal";
 // import { calculateMarriedFilingSeparatelyDependenceTax } from "../services/TaxcalCulationWithDependency";
 export default function TaxForm() {
     const [inputValue, setInputValue] = useState("");
@@ -29,8 +28,6 @@ export default function TaxForm() {
     const handleDependentOver17FromTaxForm = (data) => {
         setDependentChildOver17Data(data);
     };
-
-
     let estimateTaxableIncome = 0;
     let Refund = 0;
     let standardDeductionValue = 0;
