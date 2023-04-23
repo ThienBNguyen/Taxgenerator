@@ -2,7 +2,7 @@ import React from 'react'
 import './about.css'
 export default function About() {
     return (
-        <div style={{ background: "linear-gradient(135deg,#0097e6,#0077c5);" }} className='about pt-5 pb-5 text-white text-center bg-dark '>
+        <div style={{ background: "linear-gradient(135deg,#0097e6,#0077c5)" }} className='about pt-5 pb-5 text-white text-center bg-dark '>
 
             <h6>TAX REFUND CALCULATOR</h6>
             <h1>

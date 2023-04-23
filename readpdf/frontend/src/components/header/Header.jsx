@@ -30,16 +30,12 @@ export default function header() {
                             </Offcanvas.Header>
                             <Offcanvas.Body>
                                 <Nav className="justify-content-end flex-grow-1 pe-3">
-                                    <Nav.Link>
-                                        <Link
-                                            to="/schedulec" relative="path"
-                                        ><Button variant="primary">Schedule C</Button></Link>
-                                    </Nav.Link>
-                                    <Nav.Link>
-                                        <Link
-                                            to="/donate" relative="path"
-                                        ><Button variant="primary">Donate</Button></Link>
-                                    </Nav.Link>
+                                    <Link className='me-2'
+                                        to="/schedulec" relative="path"
+                                    ><Button variant="primary">Schedule C</Button></Link>
+                                    <Link
+                                        to="/donate" relative="path"
+                                    ><Button variant="primary">Donate</Button></Link>
                                     {/* <Nav.Link href="#action1"><Button variant="outline-light">Sign in </Button></Nav.Link>
                                     <Nav.Link href="#action2"><Button variant="primary">Get Started</Button></Nav.Link> */}
 

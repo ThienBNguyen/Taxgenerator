@@ -84,9 +84,9 @@ export default function ClarifyStatus(props) {
                 (
                     <div><div className='mb-2'>Can someone claim you as a dependent?</div>
                         <div className='mb-2'>
-                            <div class=" ">
-                                <button type="button" class="btn btn-primary me-3 px-3" onClick={() => handleClaimAsDependent("yes")}>Yes</button>
-                                <button type="button" class="btn btn-primary me-3 px-3" onClick={() => handleClaimAsDependent("no")}>No</button>
+                            <div className=" ">
+                                <button type="button" className="btn btn-primary me-3 px-3" onClick={() => handleClaimAsDependent("yes")}>Yes</button>
+                                <button type="button" className="btn btn-primary me-3 px-3" onClick={() => handleClaimAsDependent("no")}>No</button>
                             </div>
                         </div></div>
                 )
@@ -95,10 +95,10 @@ export default function ClarifyStatus(props) {
                 <div>
                     < div className='mb-2' > Are you married?</div >
                     <div className='mb-2'>
-                        <div class="">
+                        <div className="">
 
-                            <button type="button" class="btn btn-primary me-3 px-3" onClick={() => handleAreYouMarried("yes")}>Yes</button>
-                            <button type="button" class="btn btn-primary me-3 px-3" onClick={() => handleAreYouMarried("no")}>No</button>
+                            <button type="button" className="btn btn-primary me-3 px-3" onClick={() => handleAreYouMarried("yes")}>Yes</button>
+                            <button type="button" className="btn btn-primary me-3 px-3" onClick={() => handleAreYouMarried("no")}>No</button>
                         </div>
                     </div>
                 </div>
@@ -108,9 +108,9 @@ export default function ClarifyStatus(props) {
                     <div>
                         < div className='mb-2' > Will you filed married Jointly?</div >
                         <div className='mb-2'>
-                            <div class="">
-                                <button class="btn btn-primary me-3 px-3" onClick={() => handleFiledMarriedJointly("yesMarriedJointly")}>Yes</button>
-                                <button class="btn btn-primary me-3 px-3" onClick={() => handleFiledMarriedJointly("noMarriedJointly")}>No</button>
+                            <div className="">
+                                <button className="btn btn-primary me-3 px-3" onClick={() => handleFiledMarriedJointly("yesMarriedJointly")}>Yes</button>
+                                <button className="btn btn-primary me-3 px-3" onClick={() => handleFiledMarriedJointly("noMarriedJointly")}>No</button>
                             </div>
                         </div>
                     </div>
@@ -121,9 +121,9 @@ export default function ClarifyStatus(props) {
                     <div>
                         < div className='mb-2' > Do you have any dependent?</div >
                         <div className='mb-2'>
-                            <div class="">
-                                <button type="button" class="btn btn-primary me-3 px-3" onClick={() => handleShowDoYouHaveDependent("yesDoYouHaveAnyDependent")}>Yes</button>
-                                <button type="button" class="btn btn-primary me-3 px-3" onClick={() => handleShowDoYouHaveDependent("noDoYouHaveAnyDependent")}>No</button>
+                            <div className="">
+                                <button type="button" className="btn btn-primary me-3 px-3" onClick={() => handleShowDoYouHaveDependent("yesDoYouHaveAnyDependent")}>Yes</button>
+                                <button type="button" className="btn btn-primary me-3 px-3" onClick={() => handleShowDoYouHaveDependent("noDoYouHaveAnyDependent")}>No</button>
                             </div>
                         </div>
                     </div>

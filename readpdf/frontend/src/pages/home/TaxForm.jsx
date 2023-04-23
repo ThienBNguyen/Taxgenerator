@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { useSelector } from 'react-redux';
 import './taxForm.css'
 import FileStatus from './FileStatus';
 import { calculateSingleTax, calculateHeadOfHouseholdTax, calculateMarriedFilingSeparatelyTax, calculateMarriedFilingJoinlyTax } from "../../services/TaxBracketCal";
@@ -18,7 +19,8 @@ export default function TaxForm() {
 
     console.log(dependentChildOver17Data);
     console.log(dependentChildData);
-
+    const scheduleCTotal = useSelector((state) => state.sum.sum);
+    console.log(scheduleCTotal);
     function handleDataFromChild(data) {
         setDataFromChild(data);
     }
@@ -114,8 +116,8 @@ export default function TaxForm() {
                         <div >
                             <FileStatus onDataFromChild={handleDataFromChild} dependentDataFromChild={handleDependentChildData} handleDependentOver17FromTaxForm={handleDependentOver17FromTaxForm} />
                         </div>
-                        <div class="row">
-                            <div class="col-lg-6 col-sm-12">
+                        <div className="row">
+                            <div className="col-lg-6 col-sm-12">
                                 <span>
                                     Enter your Gross Paid amount (YTD) or Form W-2 Box 1
                                 </span>
@@ -124,8 +126,8 @@ export default function TaxForm() {
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-lg-6 col-sm-12">
+                        <div className="row">
+                            <div className="col-lg-6 col-sm-12">
                                 <span>
                                     Enter your Federal Income Tax Withholding (YTD) or Form W-2 Box 5
                                 </span>
@@ -138,7 +140,7 @@ export default function TaxForm() {
                     </div>
 
                 </div>
-                <div class="d-block d-md-none mt-3"></div>
+                <div className="d-block d-md-none mt-3"></div>
                 <div className=' taxOuterPanel col-sm-12 col-lg-4 ms-lg-3 bg-clear border-2 rounded  p-3  shadow-lg text-center'>
                     <div className=' taxPanel ml-4 p-4' >
                         <h6>

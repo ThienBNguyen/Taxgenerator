@@ -1,4 +1,6 @@
-import React, { useState, } from 'react'
+import React, { useState, useEffect } from 'react'
+import { useDispatch } from 'react-redux';
+import { updateSum } from '../../redux/store/actions';
 export default function ScheduleCForm() {
     const [advertising, setAdvertising] = useState(0);
     const [carAndTruckExpenses, setCarAndTruckExpenses] = useState(0);
@@ -20,18 +22,69 @@ export default function ScheduleCForm() {
     const [utilities, setUtilities] = useState(0);
     const [wages, setWages] = useState(0);
     const [otherExpenses, setOtherExpenses] = useState(0);
-
+    // const [sum, setSum] = useState(0);
+    const dispatch = useDispatch();
     const handleInputChange = (event, setFunction) => {
-        console.log(advertising);
-        setFunction(Number(event.target.value));
+        const value = Number(event.target.value) || 0;
+        setFunction(value);
+
     };
+    useEffect(() => {
+        const calculateSum = () => {
+            const total = advertising +
+                carAndTruckExpenses +
+                commissionsAndFees +
+                contractLabor +
+                depletion +
+                depreciation +
+                employeeBenefitPrograms +
+                insurance +
+                interest +
+                legalAndProfessionalServices +
+                officeExpense +
+                pensionAndProfitSharingPlans +
+                rentOrLease +
+                repairsAndMaintenance +
+                supplies +
+                taxesAndLicenses +
+                travelAndMeals +
+                utilities +
+                wages +
+                otherExpenses;
+            // setSum(total);
+            dispatch(updateSum(total));
+        };
+
+        calculateSum();
+    }, [dispatch,
+        advertising,
+        carAndTruckExpenses,
+        commissionsAndFees,
+        contractLabor,
+        depletion,
+        depreciation,
+        employeeBenefitPrograms,
+        insurance,
+        interest,
+        legalAndProfessionalServices,
+        officeExpense,
+        pensionAndProfitSharingPlans,
+        rentOrLease,
+        repairsAndMaintenance,
+        supplies,
+        taxesAndLicenses,
+        travelAndMeals,
+        utilities,
+        wages,
+        otherExpenses
+    ]);
     return (
         <div className="container py-4">
             <div className='col-sm-12 col-lg-7 bg-clear border-5  rounded p-3 shadow-lg '>
                 <div className=''>
 
-                    <div class="row">
-                        <div class="col-lg-6 col-sm-12">
+                    <div className="row">
+                        <div className="col-lg-6 col-sm-12">
                             <span>
                                 Advertising
                             </span>
@@ -40,8 +93,8 @@ export default function ScheduleCForm() {
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-lg-6 col-sm-12">
+                    <div className="row">
+                        <div className="col-lg-6 col-sm-12">
                             <span>
                                 Car and truck expenses
                             </span>
@@ -51,8 +104,8 @@ export default function ScheduleCForm() {
 
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-lg-6 col-sm-12">
+                    <div className="row">
+                        <div className="col-lg-6 col-sm-12">
                             <span>
                                 commissions and fees
                             </span>
@@ -61,8 +114,8 @@ export default function ScheduleCForm() {
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-lg-6 col-sm-12">
+                    <div className="row">
+                        <div className="col-lg-6 col-sm-12">
                             <span>
                                 Contract labor
                             </span>
@@ -71,8 +124,8 @@ export default function ScheduleCForm() {
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-lg-6 col-sm-12">
+                    <div className="row">
+                        <div className="col-lg-6 col-sm-12">
                             <span>
                                 Depletion
                             </span>
@@ -82,8 +135,8 @@ export default function ScheduleCForm() {
 
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-lg-6 col-sm-12">
+                    <div className="row">
+                        <div className="col-lg-6 col-sm-12">
                             <span>
                                 Depreciation and section
                             </span>
@@ -93,8 +146,8 @@ export default function ScheduleCForm() {
 
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-lg-6 col-sm-12">
+                    <div className="row">
+                        <div className="col-lg-6 col-sm-12">
                             <span>
                                 employee benefit programs
                             </span>
@@ -104,8 +157,8 @@ export default function ScheduleCForm() {
 
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-lg-6 col-sm-12">
+                    <div className="row">
+                        <div className="col-lg-6 col-sm-12">
                             <span>
                                 Insurance
                             </span>
@@ -115,8 +168,8 @@ export default function ScheduleCForm() {
 
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-lg-6 col-sm-12">
+                    <div className="row">
+                        <div className="col-lg-6 col-sm-12">
                             <span>
                                 Interest
                             </span>
@@ -127,8 +180,8 @@ export default function ScheduleCForm() {
                         </div>
                     </div>
 
-                    <div class="row">
-                        <div class="col-lg-6 col-sm-12">
+                    <div className="row">
+                        <div className="col-lg-6 col-sm-12">
                             <span>
                                 legal and professional services
                             </span>
@@ -138,8 +191,8 @@ export default function ScheduleCForm() {
 
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-lg-6 col-sm-12">
+                    <div className="row">
+                        <div className="col-lg-6 col-sm-12">
                             <span>
                                 office expense
                             </span>
@@ -149,8 +202,8 @@ export default function ScheduleCForm() {
 
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-lg-6 col-sm-12">
+                    <div className="row">
+                        <div className="col-lg-6 col-sm-12">
                             <span>
                                 Pension and profit sharing plans
                             </span>
@@ -160,8 +213,8 @@ export default function ScheduleCForm() {
 
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-lg-6 col-sm-12">
+                    <div className="row">
+                        <div className="col-lg-6 col-sm-12">
                             <span>
                                 Rent or lease
                             </span>
@@ -171,8 +224,8 @@ export default function ScheduleCForm() {
 
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-lg-6 col-sm-12">
+                    <div className="row">
+                        <div className="col-lg-6 col-sm-12">
                             <span>
                                 Repairs and maintenance
                             </span>
@@ -182,8 +235,8 @@ export default function ScheduleCForm() {
 
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-lg-6 col-sm-12">
+                    <div className="row">
+                        <div className="col-lg-6 col-sm-12">
                             <span>
                                 Supplies
                             </span>
@@ -194,8 +247,8 @@ export default function ScheduleCForm() {
                         </div>
                     </div>
 
-                    <div class="row">
-                        <div class="col-lg-6 col-sm-12">
+                    <div className="row">
+                        <div className="col-lg-6 col-sm-12">
                             <span>
                                 Taxes and licenses
                             </span>
@@ -205,8 +258,8 @@ export default function ScheduleCForm() {
 
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-lg-6 col-sm-12">
+                    <div className="row">
+                        <div className="col-lg-6 col-sm-12">
                             <span>
                                 Travel and meals
                             </span>
@@ -217,8 +270,8 @@ export default function ScheduleCForm() {
                         </div>
                     </div>
 
-                    <div class="row">
-                        <div class="col-lg-6 col-sm-12">
+                    <div className="row">
+                        <div className="col-lg-6 col-sm-12">
                             <span>
                                 Utilities
                             </span>
@@ -228,8 +281,8 @@ export default function ScheduleCForm() {
 
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-lg-6 col-sm-12">
+                    <div className="row">
+                        <div className="col-lg-6 col-sm-12">
                             <span>
                                 Wages
                             </span>
@@ -239,8 +292,8 @@ export default function ScheduleCForm() {
 
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-lg-6 col-sm-12">
+                    <div className="row">
+                        <div className="col-lg-6 col-sm-12">
                             <span>
                                 Other expenses
                             </span>
