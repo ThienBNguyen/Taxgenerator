@@ -4,15 +4,29 @@ import "./clarifyStatus.css"
 import DependentQuestion from "./DependentQuestion";
 // import QuestionForms from "../components/questionforms/QuestionForms";
 export default function ClarifyStatus(props) {
+    // const [status, setStatus] = useState('');
     const [dependentData, setDependentData] = useState("");
     const [dependentOver17Data, setDependentOver17Data] = useState("");
-    const [isCheckedClaimAsDependent, setIsCheckedClaimAsDependent] = useState(false);
-    const [areYouMarried, setAreYouMarried] = useState(false);
-    const [doYouHaveAnyDependent, setDoYouHaveAnyDependent] = useState(false);
+    // const [isCheckedClaimAsDependent, setIsCheckedClaimAsDependent] = useState(false);
+    // const [areYouMarried, setAreYouMarried] = useState(false);
+    // const [doYouHaveAnyDependent, setDoYouHaveAnyDependent] = useState(false);
     const [showAreYouMarriedQuestions, setShowAreYouMarriedQuestions] = useState(false);
     const [showMarriedJointly, setShowMarriedJointly] = useState("");
     const [showDoYouHaveDependent, setShowDoYouHaveDependent] = useState("");
     const [showDependentForm, setShowDependentForm] = useState("");
+    // const {
+    //     claimedAsDependent,
+    //     isMarried,
+    //     filedMarriedJointly,
+    //     hasDependent,
+    //     handleClaimAsDependentInParent,
+    //     handleIsMarriedInParent,
+    //     handleFiledMarriedJointlyInParent,
+    //     handleHasDependentInParent,
+    //     handleDependentDataFromFile,
+    //     handleDependentOver17DataFromFileStatus,
+    //     selectedFillingStatusOption,
+    // } = props;
     const { handleChildData } = props
     const handleDependentData = (data) => {
         setDependentData(data);
@@ -20,6 +34,24 @@ export default function ClarifyStatus(props) {
     const handleDependentOver17Data = (data) => {
         setDependentOver17Data(data);
     };
+    // useEffect(() => {
+    //     if (selectedFillingStatusOption === "single") {
+    //         handleClaimAsDependentInParent(false);
+    //         handleIsMarriedInParent(false);
+    //         handleFiledMarriedJointlyInParent(false);
+    //         handleHasDependentInParent(false);
+    //     } else if (selectedFillingStatusOption === "marriedFilingJointly") {
+    //         handleClaimAsDependentInParent(false);
+    //         handleIsMarriedInParent(true);
+    //         handleFiledMarriedJointlyInParent(true);
+    //         handleHasDependentInParent(false);
+    //     } else if (selectedFillingStatusOption === "headOfHousehold") {
+    //         handleClaimAsDependentInParent(false);
+    //         handleIsMarriedInParent(false);
+    //         handleFiledMarriedJointlyInParent(false);
+    //         handleHasDependentInParent(true);
+    //     }
+    // }, [selectedFillingStatusOption, handleClaimAsDependentInParent, handleIsMarriedInParent, handleFiledMarriedJointlyInParent, handleHasDependentInParent]);
     // console.log(dependentOver17Data);
     props.handleDependentDataFromFile(dependentData)
     props.handleDependentOver17DataFromFileStatus(dependentOver17Data)
@@ -28,56 +60,46 @@ export default function ClarifyStatus(props) {
     //     setShowAdditionalQuestions(true);
     // };
     // console.log(props.selectedFillingStatusOption);
-    const sendDataToParent = (filingstatus) => {
-        handleChildData(filingstatus);
-    };
+
     const handleClaimAsDependent = (value) => {
-        sendDataToParent(value)
-        if (value === "no") {
-            setIsCheckedClaimAsDependent(value === "no");
-            setShowAreYouMarriedQuestions(true);
-        }
-        if (value === "yes") {
-            setShowAreYouMarriedQuestions(false);
-        }
-        console.log(isCheckedClaimAsDependent, areYouMarried, doYouHaveAnyDependent);
-    };
-    const handleAreYouMarried = (value) => {
-        setShowDoYouHaveDependent(true);
-        if (value === "no") {
-            setAreYouMarried(value === "no");
-            setShowDoYouHaveDependent(true);
-        }
-        if (value === "yes") {
-            setAreYouMarried(value === "yes");
-            setShowMarriedJointly(true)
-            setShowDoYouHaveDependent(true);
-        }
+        handleChildData(value);
+        setShowAreYouMarriedQuestions(value !== "yes");
     };
 
     const handleFiledMarriedJointly = (value) => {
-        sendDataToParent(value)
-        if (value === "noMarriedJointly") {
-            setAreYouMarried(value === "no");
-            setShowDoYouHaveDependent(true);
-        }
-        if (value === "yesMarriedJointly") {
-            setAreYouMarried(value === "yes");
-            setShowDoYouHaveDependent(true);
-        }
-    };
-    const handleShowDoYouHaveDependent = (value) => {
-        sendDataToParent(value)
-        if (value === "noDoYouHaveAnyDependent") {
-            setDoYouHaveAnyDependent(value === "no");
-            setShowDependentForm(false);
-        }
-        if (value === "yesDoYouHaveAnyDependent") {
-            setDoYouHaveAnyDependent(value === "yes");
-            setShowDependentForm(true);
-        }
+        handleChildData(value);
+        setShowDoYouHaveDependent(true);
     };
 
+    const handleShowDoYouHaveDependent = (value) => {
+        handleChildData(value);
+        setShowDependentForm(value === "yesDoYouHaveAnyDependent");
+    };
+    // const handleClaimAsDependent = (value) => {
+    //     handleClaimAsDependentInParent(value === "yes");
+    // };
+
+    // const handleAreYouMarried = (value) => {
+    //     handleIsMarriedInParent(value === "yes");
+    // };
+
+    // const handleFiledMarriedJointly = (value) => {
+    //     handleFiledMarriedJointlyInParent(value === "yesMarriedJointly");
+    // };
+
+    // const handleShowDoYouHaveDependent = (value) => {
+    //     handleHasDependentInParent(value === "yesDoYouHaveAnyDependent");
+    // };
+    const handleAreYouMarried = (value) => {
+        setShowDoYouHaveDependent(true);
+        if (value === "no") {
+            setShowDoYouHaveDependent(true);
+        }
+        if (value === "yes") {
+            setShowMarriedJointly(true);
+            setShowDoYouHaveDependent(true);
+        }
+    };
     return (
         <div>
             {props.selectedFillingStatusOption === 'Unknown' &&

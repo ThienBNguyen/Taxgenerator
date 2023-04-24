@@ -1,26 +1,32 @@
 import React, { useState, useEffect } from 'react'
-import { useSelector } from 'react-redux';
+import { useDispatch } from "react-redux";
+// import { setTaxBracket, setAccumulatedTax, calculateTaxThunk } from "../../redux/store/actions";
 import './taxForm.css'
 import FileStatus from './FileStatus';
 import { calculateSingleTax, calculateHeadOfHouseholdTax, calculateMarriedFilingSeparatelyTax, calculateMarriedFilingJoinlyTax } from "../../services/TaxBracketCal";
+// import TaxDisplay from '../../components/taxdisplay/TaxDisplay';
 // import { calculateMarriedFilingSeparatelyDependenceTax } from "../services/TaxcalCulationWithDependency";
 export default function TaxForm() {
     const [inputValue, setInputValue] = useState("");
     const [federalInputValue, setFederalInputValue] = useState("");
     const [taxBracket, setTaxBracket] = useState("");
     const [accumulatedTax, setAccumulatedTax] = useState(0);
-    const [otherTax, setOtherTax] = useState(0);
+    // const [otherTax, setOtherTax] = useState(0);
     const [totalTaxDue, setTotalTaxDue] = useState(0);
-    console.log(setOtherTax);
-    console.log(calculateMarriedFilingJoinlyTax);
+
+    // console.log(setOtherTax);
+    // console.log(calculateMarriedFilingJoinlyTax);
     const [dataFromChild, setDataFromChild] = useState("");
     const [dependentChildData, setDependentChildData] = useState("");
     const [dependentChildOver17Data, setDependentChildOver17Data] = useState("");
 
-    console.log(dependentChildOver17Data);
-    console.log(dependentChildData);
-    const scheduleCTotal = useSelector((state) => state.sum.sum);
-    console.log(scheduleCTotal);
+    // console.log(dependentChildOver17Data);
+    // console.log(dependentChildData);
+    const dispatch = useDispatch();
+    // const taxBracket = useSelector((state) => state.taxBracket);
+    // const accumulatedTax = useSelector((state) => state.accumulatedTax);
+    // const scheduleCTotal = useSelector((state) => state.sum.sum);
+    // console.log(scheduleCTotal);
     function handleDataFromChild(data) {
         setDataFromChild(data);
     }
@@ -30,6 +36,7 @@ export default function TaxForm() {
     const handleDependentOver17FromTaxForm = (data) => {
         setDependentChildOver17Data(data);
     };
+    let otherTax = 0
     let estimateTaxableIncome = 0;
     let Refund = 0;
     let standardDeductionValue = 0;
@@ -55,7 +62,6 @@ export default function TaxForm() {
         }
         allDependentExemption = dependentExemption + dependentExemptionOver17
         return allDependentExemption
-
     }
 
 
@@ -99,13 +105,14 @@ export default function TaxForm() {
             }
             setTaxBracket(result.taxBracket);
             setAccumulatedTax(result.accumulatedTax);
-
+            // dispatch(calculateTaxThunk());
+            // dispatch(setAccumulatedTax(result.accumulatedTax));
             let test = accumulatedTax + otherTax
             setTotalTaxDue(test)
         }
         calculateTax();
 
-    }, [estimateTaxableIncome, dataFromChild, accumulatedTax, dependentChildData, otherTax]);
+    }, [estimateTaxableIncome, dataFromChild, accumulatedTax, dependentChildData, otherTax, dispatch]);
 
     return (
 
@@ -152,14 +159,12 @@ export default function TaxForm() {
                         <h6>Tax Due</h6>
                         <h1> {accumulatedTax.toLocaleString("en-US", { minimumFractionDigits: 2 })}</h1>
                         <hr />
-                        {/* self-employment tax */}
                         <h6>Other Taxes</h6>
                         <h1> {otherTax.toLocaleString("en-US", { minimumFractionDigits: 2 })}</h1>
                         <hr />
                         <h6>Total Tax Due</h6>
                         <h1> {totalTaxDue.toLocaleString("en-US", { minimumFractionDigits: 2 })}</h1>
                         <hr />
-                        {/* dependence child  */}
                         <h6>Credits</h6>
                         <h1> {allDependentExemption.toLocaleString("en-US", { minimumFractionDigits: 2 })}</h1>
                         <hr />
@@ -176,9 +181,8 @@ export default function TaxForm() {
                         <h6>Marginal Tax Rate</h6>
                         <h1>{taxBracket}</h1>
                     </div>
-
-
                 </div>
+                {/* <TaxDisplay /> */}
             </div>
 
 

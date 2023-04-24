@@ -1,1 +1,3 @@
 export const UPDATE_SUM = 'UPDATE_SUM';
+export const SET_TAX_BRACKET = 'SET_TAX_BRACKET';
+export const SET_ACCUMULATED_TAX = 'SET_ACCUMULATED_TAX';
