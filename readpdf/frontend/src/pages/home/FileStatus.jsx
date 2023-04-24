@@ -7,30 +7,6 @@ export default function FileStatus(props) {
     // const [showAdditionalQuestions, setShowAdditionalQuestions] = useState(false);
     const [DependentData, setDependentData] = useState("");
     const [dependentOver17Data, setDependentOver17Data] = useState("");
-    // console.log(showAdditionalQuestions.valueOf.name);
-    // console.log(selectedFillingStatusOption);
-    // const [claimedAsDependent, setClaimedAsDependent] = useState(false);
-    // const [isMarried, setIsMarried] = useState(false);
-    // const [filedMarriedJointly, setFiledMarriedJointly] = useState(false);
-    // const [hasDependent, setHasDependent] = useState(false);
-
-    // const handleClaimAsDependentInParent = (value) => {
-    //     setClaimedAsDependent(value);
-    // };
-
-    // const handleIsMarriedInParent = (value) => {
-    //     setIsMarried(value);
-    // };
-
-    // const handleFiledMarriedJointlyInParent = (value) => {
-    //     setFiledMarriedJointly(value);
-    // };
-
-    // const handleHasDependentInParent = (value) => {
-    //     setHasDependent(value);
-    // };
-
-    ///test
     const handleDependentData = (data) => {
         setDependentData(data);
     };
@@ -40,77 +16,80 @@ export default function FileStatus(props) {
     };
     props.handleDependentOver17FromTaxForm(dependentOver17Data)
     props.dependentDataFromChild(DependentData)
-    // props.dependentDataFromChild()
-    //not use variable 
-    // console.log(showAdditionalQuestions);
+
     const handleOptionFillingStatusChange = (event) => {
         setSelectedFillingStatusOption(event.target.value);
         props.onDataFromChild(event.target.value)
-
-        // if (event.target.value === "Unknown") {
-        //     setShowAdditionalQuestions(true);
-        // } else {
-        //     setShowAdditionalQuestions(false);
-        // }
-
     };
 
+    // const handleChildData = (childData) => {
+
+    //     if (childData === 'yes') {
+    //         props.onDataFromChild('Single')
+    //         setSelectedFillingStatusOption('Single')
+    //     }
+    //     if (childData === 'no') {
+    //         props.onDataFromChild('Unknown')
+    //         setSelectedFillingStatusOption('Unknown')
+    //     }
+    //     if (childData === 'yesMarriedJointly') {
+    //         props.onDataFromChild('Married_Filing_Jointly')
+    //         setSelectedFillingStatusOption('Married_Filing_Jointly')
+    //     }
+    //     if (childData === 'noMarriedJointly') {
+    //         props.onDataFromChild('Married_Filing_Separately')
+    //         setSelectedFillingStatusOption('Married_Filing_Separately')
+    //         if (childData === 'yesDoYouHaveAnyDependent') {
+    //             props.onDataFromChild('Married_Filing_Separately')
+    //             setSelectedFillingStatusOption('Married_Filing_Separately')
+    //             // if (selectedFillingStatusOption === 'Married_Filing_Separately') {
+    //             //     setSelectedFillingStatusOption('Married_Filing_Separately')
+    //             //     props.onDataFromChild('Married_Filing_Separately')
+    //             // } else {
+    //             //     props.onDataFromChild('Married_Filing_Jointly')
+    //             //     setSelectedFillingStatusOption('Married_Filing_Jointly')
+    //             // }
+    //         }
+    //     }
+    //     // if (childData === 'yesDoYouHaveAnyDependent') {
+    //     //     if (selectedFillingStatusOption === 'Married_Filing_Separately') {
+    //     //         setSelectedFillingStatusOption('Married_Filing_Separately')
+    //     //         props.onDataFromChild('Married_Filing_Separately')
+    //     //     } else {
+    //     //         props.onDataFromChild('Married_Filing_Jointly')
+    //     //         setSelectedFillingStatusOption('Married_Filing_Jointly')
+    //     //     }
+    //     //     // props.onDataFromChild('Married_Filing_Jointly')
+    //     //     // setSelectedFillingStatusOption('Married_Filing_Jointly')
+
+    //     // }
+    //     if (childData === 'noDoYouHaveAnyDependent') {
+    //         if (selectedFillingStatusOption === 'Married_Filing_Separately') {
+    //             setSelectedFillingStatusOption('Married_Filing_Separately')
+    //             props.onDataFromChild('Married_Filing_Separately')
+    //         } else {
+    //             props.onDataFromChild('Married_Filing_Jointly')
+    //             setSelectedFillingStatusOption('Married_Filing_Jointly')
+    //         }
+
+    //     }
+
+    // };
     const handleChildData = (childData) => {
-        const childDataToFilingStatus = {
+        const childDataMapping = {
             yes: 'Single',
             no: 'Unknown',
             yesMarriedJointly: 'Married_Filing_Jointly',
             noMarriedJointly: 'Married_Filing_Separately',
-            yesDoYouHaveAnyDependent: 'Married_Filing_Jointly',
+            yesDoYouHaveAnyDependent: selectedFillingStatusOption === 'Married_Filing_Separately' ? 'Married_Filing_Separately' : 'Married_Filing_Jointly',
+            noDoYouHaveAnyDependent: selectedFillingStatusOption === 'Married_Filing_Separately' ? 'Married_Filing_Separately' : 'Married_Filing_Jointly',
         };
 
-        const filingStatus = childDataToFilingStatus[childData];
-
-        if (filingStatus) {
-            props.onDataFromChild(filingStatus);
-            setSelectedFillingStatusOption(filingStatus);
-        } else if (childData === 'noDoYouHaveAnyDependent') {
-            const selectedStatus =
-                selectedFillingStatusOption === 'Married_Filing_Separately'
-                    ? 'Married_Filing_Separately'
-                    : 'Married_Filing_Jointly';
-
-            props.onDataFromChild(selectedStatus);
-            setSelectedFillingStatusOption(selectedStatus);
+        if (childData in childDataMapping) {
+            props.onDataFromChild(childDataMapping[childData]);
+            setSelectedFillingStatusOption(childDataMapping[childData]);
         }
-        // if (childData === 'yes') {
-        //     props.onDataFromChild('Single')
-        //     setSelectedFillingStatusOption('Single')
-        // }
-        // if (childData === 'no') {
-        //     props.onDataFromChild('Unknown')
-        //     setSelectedFillingStatusOption('Unknown')
-        // }
-        // if (childData === 'yesMarriedJointly') {
-        //     props.onDataFromChild('Married_Filing_Jointly')
-        //     setSelectedFillingStatusOption('Married_Filing_Jointly')
-        // }
-        // if (childData === 'noMarriedJointly') {
-        //     props.onDataFromChild('Married_Filing_Separately')
-        //     setSelectedFillingStatusOption('Married_Filing_Separately')
-        // }
-        // if (childData === 'yesDoYouHaveAnyDependent') {
-        //     props.onDataFromChild('Married_Filing_Jointly')
-        //     setSelectedFillingStatusOption('Married_Filing_Jointly')
-        // }
-        // if (childData === 'noDoYouHaveAnyDependent') {
-        //     if (selectedFillingStatusOption === 'Married_Filing_Separately') {
-        //         setSelectedFillingStatusOption('Married_Filing_Separately')
-        //         props.onDataFromChild('Married_Filing_Separately')
-        //     } else {
-        //         props.onDataFromChild('Married_Filing_Jointly')
-        //         setSelectedFillingStatusOption('Married_Filing_Jointly')
-        //     }
-
-        // }
-
     };
-    // console.log(selectedFillingStatusOption);
     return (
         <div className='mb-3'><div className='mb-2'>Select your filing status for 2022 below</div>
             <div className='mb-2'>
@@ -153,22 +132,6 @@ export default function FileStatus(props) {
             </div>
             {/* {showAdditionalQuestions && ( */}
             <ClarifyStatus handleChildData={handleChildData} handleDependentDataFromFile={handleDependentData} handleDependentOver17DataFromFileStatus={handleDependentOver17DataFromFileStatus} selectedFillingStatusOption={selectedFillingStatusOption} />
-            {/* <ClarifyStatus
-                claimedAsDependent={claimedAsDependent}
-                isMarried={isMarried}
-                filedMarriedJointly={filedMarriedJointly}
-                hasDependent={hasDependent}
-                handleClaimAsDependentInParent={handleClaimAsDependentInParent}
-                handleIsMarriedInParent={handleIsMarriedInParent}
-                handleFiledMarriedJointlyInParent={handleFiledMarriedJointlyInParent}
-                handleHasDependentInParent={handleHasDependentInParent}
-                handleDependentDataFromFile={handleDependentData}
-                handleDependentOver17DataFromFileStatus={handleDependentOver17DataFromFileStatus}
-                selectedFillingStatusOption={selectedFillingStatusOption}
-            /> */}
-            {/* )} */}
-
-
         </div>
     )
 }
