@@ -4,8 +4,7 @@ import "./clarifyStatus.css"
 import DependentQuestion from "./DependentQuestion";
 // import QuestionForms from "../components/questionforms/QuestionForms";
 export default function ClarifyStatus(props) {
-    const [dependentData, setDependentData] = useState("");
-    const [dependentOver17Data, setDependentOver17Data] = useState("");
+
 
     const [showAreYouMarriedQuestions, setShowAreYouMarriedQuestions] = useState(false);
     const [showMarriedJointly, setShowMarriedJointly] = useState("");
@@ -13,15 +12,7 @@ export default function ClarifyStatus(props) {
     const [showDependentForm, setShowDependentForm] = useState("");
 
     const { handleChildData } = props
-    const handleDependentData = (data) => {
-        setDependentData(data);
-    };
-    const handleDependentOver17Data = (data) => {
-        setDependentOver17Data(data);
-    };
 
-    props.handleDependentDataFromFile(dependentData)
-    props.handleDependentOver17DataFromFileStatus(dependentOver17Data)
 
     const handleClaimAsDependent = (value) => {
         handleChildData(value);
@@ -99,7 +90,7 @@ export default function ClarifyStatus(props) {
                     </div>
                 ) : null}
             {showDependentForm || props.selectedFillingStatusOption === "Head_of_Household" ? (
-                <DependentQuestion handleDependentOver17Data={handleDependentOver17Data} handleChildData={handleDependentData} />
+                <DependentQuestion />
             ) : null}
 
         </div>

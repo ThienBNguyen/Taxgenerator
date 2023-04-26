@@ -4,18 +4,6 @@ import ClarifyStatus from './ClarifyStatus';
 export default function FileStatus(props) {
     // const [data, setData] = useState("");
     const [selectedFillingStatusOption, setSelectedFillingStatusOption] = useState("");
-    // const [showAdditionalQuestions, setShowAdditionalQuestions] = useState(false);
-    const [DependentData, setDependentData] = useState("");
-    const [dependentOver17Data, setDependentOver17Data] = useState("");
-    const handleDependentData = (data) => {
-        setDependentData(data);
-    };
-    const handleDependentOver17DataFromFileStatus = (data) => {
-
-        setDependentOver17Data(data);
-    };
-    props.handleDependentOver17FromTaxForm(dependentOver17Data)
-    props.dependentDataFromChild(DependentData)
 
     const handleOptionFillingStatusChange = (event) => {
         setSelectedFillingStatusOption(event.target.value);
@@ -131,7 +119,7 @@ export default function FileStatus(props) {
                     onChange={handleOptionFillingStatusChange} /> Unknown
             </div>
             {/* {showAdditionalQuestions && ( */}
-            <ClarifyStatus handleChildData={handleChildData} handleDependentDataFromFile={handleDependentData} handleDependentOver17DataFromFileStatus={handleDependentOver17DataFromFileStatus} selectedFillingStatusOption={selectedFillingStatusOption} />
+            <ClarifyStatus handleChildData={handleChildData} selectedFillingStatusOption={selectedFillingStatusOption} />
         </div>
     )
 }

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 // import { setTaxBracket, setAccumulatedTax, calculateTaxThunk } from "../../redux/store/actions";
 import './taxForm.css'
 import FileStatus from './FileStatus';
@@ -13,15 +13,12 @@ export default function TaxForm() {
     const [accumulatedTax, setAccumulatedTax] = useState(0);
     // const [otherTax, setOtherTax] = useState(0);
     const [totalTaxDue, setTotalTaxDue] = useState(0);
-
+    const dependentCount = useSelector((state) => state.dependentCount);
+    console.log(dependentCount.over17);
     // console.log(setOtherTax);
     // console.log(calculateMarriedFilingJoinlyTax);
     const [dataFromChild, setDataFromChild] = useState("");
-    const [dependentChildData, setDependentChildData] = useState("");
-    const [dependentChildOver17Data, setDependentChildOver17Data] = useState("");
 
-    // console.log(dependentChildOver17Data);
-    // console.log(dependentChildData);
     const dispatch = useDispatch();
     // const taxBracket = useSelector((state) => state.taxBracket);
     // const accumulatedTax = useSelector((state) => state.accumulatedTax);
@@ -30,12 +27,7 @@ export default function TaxForm() {
     function handleDataFromChild(data) {
         setDataFromChild(data);
     }
-    const handleDependentChildData = (data) => {
-        setDependentChildData(data);
-    };
-    const handleDependentOver17FromTaxForm = (data) => {
-        setDependentChildOver17Data(data);
-    };
+
     let otherTax = 0
     let estimateTaxableIncome = 0;
     let Refund = 0;
@@ -65,7 +57,7 @@ export default function TaxForm() {
     }
 
 
-    calculateDependentCredit(dependentChildData, dependentChildOver17Data)
+    calculateDependentCredit(dependentCount.under16, dependentCount.over17)
     const handleInputChange = (event) => {
         setInputValue(event.target.value);
     };
@@ -112,7 +104,7 @@ export default function TaxForm() {
         }
         calculateTax();
 
-    }, [estimateTaxableIncome, dataFromChild, accumulatedTax, dependentChildData, otherTax, dispatch]);
+    }, [estimateTaxableIncome, dataFromChild, accumulatedTax, otherTax, dispatch]);
 
     return (
 
@@ -121,7 +113,7 @@ export default function TaxForm() {
                 <div className='col-sm-12 col-lg-7 bg-clear border-5  rounded p-3 shadow-lg '>
                     <div className=''>
                         <div >
-                            <FileStatus onDataFromChild={handleDataFromChild} dependentDataFromChild={handleDependentChildData} handleDependentOver17FromTaxForm={handleDependentOver17FromTaxForm} />
+                            <FileStatus onDataFromChild={handleDataFromChild} />
                         </div>
                         <div className="row">
                             <div className="col-lg-6 col-sm-12">
