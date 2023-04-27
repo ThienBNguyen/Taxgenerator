@@ -1,14 +1,14 @@
 import React from 'react'
-import About from '../about/About'
 import Header from '../../components/header/Header'
-import TaxForm from '../w2form/TaxForm'
 import Footer from '../../components/footer/Footer'
-export default function Home() {
+import About from '../about/About'
+import ScheduleDFormSimple from './ScheduleEFormSimple'
+export default function ScheduleEHome() {
     return (
         <div>
             <Header></Header>
             <About />
-            <TaxForm />
+            <ScheduleDFormSimple />
             <Footer></Footer>
         </div>
     )

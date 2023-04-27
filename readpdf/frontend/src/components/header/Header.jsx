@@ -33,6 +33,12 @@ export default function header() {
                                     <Link className='me-2'
                                         to="/schedulec" relative="path"
                                     ><Button variant="primary">Schedule C</Button></Link>
+                                    <Link className='me-2'
+                                        to="/scheduled" relative="path"
+                                    ><Button variant="primary">Schedule D</Button></Link>
+                                    <Link className='me-2'
+                                        to="/schedulee" relative="path"
+                                    ><Button variant="primary">Schedule E</Button></Link>
                                     <Link
                                         to="/donate" relative="path"
                                     ><Button variant="primary">Donate</Button></Link>

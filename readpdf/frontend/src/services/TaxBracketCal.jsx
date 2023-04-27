@@ -1,5 +1,7 @@
-export function calculateSingleTax(income) {
+export function calculateSingleTax(income, federalHolding) {
     let taxBracket, accumulatedTax;
+    let taxableIncome = income
+    let federalInputValue = federalHolding
     if (income <= 10276) {
         taxBracket = "10%";
         accumulatedTax = income * 0.1;
@@ -22,11 +24,12 @@ export function calculateSingleTax(income) {
         taxBracket = "37%";
         accumulatedTax = 162718.10 + (income - 539901) * 0.37;
     }
-    return { taxBracket, accumulatedTax };
-
+    return { taxBracket, accumulatedTax, taxableIncome, federalInputValue };
 }
-export function calculateHeadOfHouseholdTax(income) {
+export function calculateHeadOfHouseholdTax(income, federalHolding) {
     let taxBracket, accumulatedTax;
+    let taxableIncome = income
+    let federalInputValue = federalHolding
     if (income <= 14651) {
         taxBracket = "10%";
         accumulatedTax = income * 0.1;
@@ -49,12 +52,12 @@ export function calculateHeadOfHouseholdTax(income) {
         taxBracket = "37%";
         accumulatedTax = 161218.60 + (income - 539901) * 0.37;
     }
-    return { taxBracket, accumulatedTax };
-
+    return { taxBracket, accumulatedTax, taxableIncome, federalInputValue };
 }
-
-export function calculateMarriedFilingSeparatelyTax(income) {
+export function calculateMarriedFilingSeparatelyTax(income, federalHolding) {
     let taxBracket, accumulatedTax;
+    let taxableIncome = income
+    let federalInputValue = federalHolding
     if (income <= 10276) {
         taxBracket = "10%";
         accumulatedTax = income * 0.1;
@@ -77,11 +80,13 @@ export function calculateMarriedFilingSeparatelyTax(income) {
         taxBracket = "37%";
         accumulatedTax = 162718.10 + (income - 539901) * 0.37;
     }
-    return { taxBracket, accumulatedTax };
+    return { taxBracket, accumulatedTax, taxableIncome, federalInputValue };
 
 }
-export function calculateMarriedFilingJoinlyTax(income) {
+export function calculateMarriedFilingJoinlyTax(income, federalHolding) {
     let taxBracket, accumulatedTax;
+    let taxableIncome = income
+    let federalInputValue = federalHolding
     if (income <= 20551) {
         taxBracket = "10%";
         accumulatedTax = income * 0.1;
@@ -104,15 +109,7 @@ export function calculateMarriedFilingJoinlyTax(income) {
         taxBracket = "37%";
         accumulatedTax = 174253.60 + (income - 647851) * 0.37;
     }
-
-    return { taxBracket, accumulatedTax };
-
-
-
-
-
-
-
+    return { taxBracket, accumulatedTax, taxableIncome, federalInputValue };
 }
 // export function calculateMarriedFilingSeparatelyTax(income) {
 //     const brackets = [10276, 41776, 89076, 170051, 215951, 539901];
@@ -137,7 +134,10 @@ export function calculateTax(income, brackets, rates) {
     return { taxBracket, accumulatedTax };
 }
 
-
+//Schedule C total Revenue - total Expenses = net Profit 
+//schedule E rental income
+//schedule D long term gain or lost short term gain or lost 
+//
 
 
 

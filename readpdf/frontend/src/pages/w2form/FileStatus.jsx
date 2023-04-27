@@ -2,16 +2,13 @@ import React, { useState } from 'react'
 import ClarifyStatus from './ClarifyStatus';
 
 export default function FileStatus(props) {
-    // const [data, setData] = useState("");
     const [selectedFillingStatusOption, setSelectedFillingStatusOption] = useState("");
-
     const handleOptionFillingStatusChange = (event) => {
         setSelectedFillingStatusOption(event.target.value);
-        props.onDataFromChild(event.target.value)
+        props.onDataFromChildFileStatus(event.target.value)
     };
 
     // const handleChildData = (childData) => {
-
     //     if (childData === 'yes') {
     //         props.onDataFromChild('Single')
     //         setSelectedFillingStatusOption('Single')
@@ -74,7 +71,7 @@ export default function FileStatus(props) {
         };
 
         if (childData in childDataMapping) {
-            props.onDataFromChild(childDataMapping[childData]);
+            props.onDataFromChildFileStatus(childDataMapping[childData]);
             setSelectedFillingStatusOption(childDataMapping[childData]);
         }
     };

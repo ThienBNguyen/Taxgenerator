@@ -8,15 +8,12 @@ export default function DependentQuestion() {
         setUnder16(event.target.value);
         dispatch({ type: 'UPDATE_UNDER_16', payload: event.target.value })
     };
-
     const handleOptionOver17Change = (event) => {
         setOver17(event.target.value);
         dispatch({ type: 'UPDATE_OVER_17', payload: event.target.value })
     };
-
-
     return (
-        <div><div >
+        <div>
             <h5 className='mb-2'>
                 Enter number of Dependents
             </h5>
@@ -40,6 +37,6 @@ export default function DependentQuestion() {
 
             </div>
 
-        </div></div>
+        </div>
     )
 }
