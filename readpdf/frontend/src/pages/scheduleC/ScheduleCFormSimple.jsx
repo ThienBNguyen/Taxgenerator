@@ -1,47 +1,59 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
-import TaxDisplay from '../../components/taxdisplay/TaxDisplay';
 export default function ScheduleCFormSimple() {
-    const [under16, setUnder16] = useState("")
-    const [over17, setOver17] = useState("")
+    const [totalRevenue, setTotalRevenue] = useState("")
+    const [totalExpense, setTotalExpense] = useState("")
+    const [totalRevenueError, setTotalRevenueError] = useState("")
+    const [totalExpenseError, setTotalExpenseError] = useState("")
     const dispatch = useDispatch();
-    const handleOptionUnder16Change = (event) => {
-        setUnder16(event.target.value);
-        dispatch({ type: 'UPDATE_UNDER_16', payload: event.target.value })
+    const handleOptionTotalRevenue = (event) => {
+        const value = event.target.value;
+        setTotalRevenue(value);
+        if (!isNaN(value)) {
+            setTotalRevenueError(false);
+            dispatch({ type: 'UPDATE_TOTAL_REVENUE', payload: value })
+        } else {
+            setTotalRevenueError(true)
+        }
     };
-    const handleOptionOver17Change = (event) => {
-        setOver17(event.target.value);
-        dispatch({ type: 'UPDATE_OVER_17', payload: event.target.value })
+    const handleOptionTotalExpense = (event) => {
+        const value = event.target.value;
+        setTotalExpense(value);
+        if (!isNaN(value)) {
+            setTotalExpenseError(false);
+            dispatch({ type: 'UPDATE_TOTAL_EXPENSE', payload: value })
+        } else {
+            setTotalExpenseError(true)
+        }
     };
     return (
-        <div className="container py-4">      <div className='row'>
-            <div className='col-sm-12 col-lg-7 bg-clear border-5  rounded p-3 shadow-lg '>
-                <h5 className='mb-2'>
-                    Enter Your Revenue
-                </h5>
-                <div className='row' >
-                    <div className='col-sm-12 col-lg-6'>
-                        <span>Total Revenue</span>
-                        <br />
-                        <input className='w-100 rounder' type="text"
-                            value={under16}
-                            placeholder="0"
-                            onChange={handleOptionUnder16Change} />
-                    </div>
-                    <div className='col-sm-12 col-lg-6'>
-                        <span>Total Expenses</span>
-                        <br />
-                        <input className='w-100 rounder' type="text"
-                            value={over17}
-                            placeholder="0"
-                            onChange={handleOptionOver17Change} />
-                    </div>
-
+        <div>
+            <h5 className='mb-2'>
+                Enter Your Revenue
+            </h5>
+            <div className='row' >
+                <div className='col-sm-12 col-lg-6'>
+                    <span>Total Revenue</span>
+                    <br />
+                    <input className={`w-100 rounder ${totalRevenueError ? 'is-invalid' : ''}`} type="text"
+                        value={totalRevenue}
+                        placeholder="0"
+                        onChange={handleOptionTotalRevenue} />
+                    {totalRevenueError && <div className="invalid-feedback">Please enter a valid number.</div>}
+                </div>
+                <div className='col-sm-12 col-lg-6'>
+                    <span>Total Expenses</span>
+                    <br />
+                    <input className={`w-100 rounder ${totalExpenseError ? 'is-invalid' : ''}`} type="text"
+                        value={totalExpense}
+                        placeholder="0"
+                        onChange={handleOptionTotalExpense} />
+                    {totalExpenseError && <div className="invalid-feedback">Please enter a valid number.</div>}
                 </div>
             </div>
-            <div className="d-block d-md-none mt-3"></div>
-            <TaxDisplay />
-        </div>
-        </div>
+        </div >
+
+
+
     )
 }

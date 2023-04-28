@@ -1,70 +1,111 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
-import TaxDisplay from '../../components/taxdisplay/TaxDisplay';
-export default function ScheduleCFormSimple() {
-    const [under16, setUnder16] = useState("")
-    const [over17, setOver17] = useState("")
+export default function ScheduleDFormSimple() {
+    const [longTermGain, setLongTermGain] = useState("")
+    const [shortTermGain, setShortTermGain] = useState("")
+    const [longTermLost, setLongTermLost] = useState("")
+    const [shortTermLost, setShortTermLost] = useState("")
+    const [longTermGainError, setLongTermGainError] = useState(false)
+    const [shortTermGainError, setShortTermGainError] = useState(false)
+    const [longTermLostError, setLongTermLostError] = useState(false)
+    const [shortTermLostError, setShortTermLostError] = useState(false)
     const dispatch = useDispatch();
-    const handleOptionUnder16Change = (event) => {
-        setUnder16(event.target.value);
-        dispatch({ type: 'UPDATE_UNDER_16', payload: event.target.value })
+    const handleOptionLongTermGain = (event) => {
+        const value = event.target.value;
+        setLongTermGain(value);
+        if (!isNaN(value)) {
+            setLongTermGainError(false);
+            dispatch({ type: 'UPDATE_LONG_TERM_GAIN', payload: value })
+        } else {
+            setLongTermGainError(true)
+        }
     };
-    const handleOptionOver17Change = (event) => {
-        setOver17(event.target.value);
-        dispatch({ type: 'UPDATE_OVER_17', payload: event.target.value })
+    const handleOptionLongTermLost = (event) => {
+        const value = event.target.value;
+        setLongTermLost(value);
+
+        if (!isNaN(value)) {
+            setLongTermLostError(false);
+            dispatch({ type: 'UPDATE_LONG_TERM_LOST', payload: value })
+        } else {
+            setLongTermLostError(true)
+        }
     };
+    const handleOptionShortTermGain = (event) => {
+        const value = event.target.value;
+        setShortTermGain(value);
+
+        if (!isNaN(value)) {
+            setShortTermGainError(false);
+            dispatch({ type: 'UPDATE_SHORT_TERM_GAIN', payload: value })
+        } else {
+            setShortTermGainError(true)
+        }
+    }
+    const handleOptionShortTermLost = (event) => {
+        const value = event.target.value;
+        setShortTermLost(value);
+        if (!isNaN(value)) {
+            dispatch({ type: 'UPDATE_SHORT_TERM_LOST', payload: value })
+
+            setShortTermLostError(false);
+        } else {
+            setShortTermLostError(true)
+        }
+    }
     return (
-        <div className="container py-4">
-            <div className='row'>
-                <div className='col-sm-12 col-lg-7 bg-clear border-5  rounded p-3 shadow-lg '>
-                    <h5 className='mb-2'>
-                        Enter Long Term and Short Term Gain or Lost
-                    </h5>
-                    <div className='row' >
-                        <div className='col-sm-12 col-lg-6'>
-                            <span>Total Long Term Gain</span>
-                            <br />
-                            <input className='w-100 rounder' type="text"
-                                value={under16}
-                                placeholder="0"
-                                onChange={handleOptionUnder16Change} />
-                        </div>
-                        <div className='col-sm-12 col-lg-6'>
-                            <span>Total Long Term Lost</span>
-                            <br />
-                            <input className='w-100 rounder' type="text"
-                                value={over17}
-                                placeholder="0"
-                                onChange={handleOptionOver17Change} />
-                        </div>
-                    </div>
 
-                    <h5 className='mb-2 mt-2'>
-                        Enter Term Gain or Lost
-                    </h5>
-                    <div className='row' >
-                        <div className='col-sm-12 col-lg-6'>
-                            <span>Total Short Term Gain</span>
-                            <br />
-                            <input className='w-100 rounder' type="text"
-                                value={under16}
-                                placeholder="0"
-                                onChange={handleOptionUnder16Change} />
-                        </div>
-                        <div className='col-sm-12 col-lg-6'>
-                            <span>Total Short Term Lost</span>
-                            <br />
-                            <input className='w-100 rounder' type="text"
-                                value={over17}
-                                placeholder="0"
-                                onChange={handleOptionOver17Change} />
-                        </div>
-                    </div>
-
+        <div>
+            <h5 className='mb-2'>
+                Enter Long Term and Short Term Gain or Lost
+            </h5>
+            <div className='row' >
+                <div className='col-sm-12 col-lg-6'>
+                    <span>Total Long Term Gain</span>
+                    <br />
+                    <input className={`w-100 rounder ${longTermGainError ? 'is-invalid' : ''}`} type="text"
+                        value={longTermGain}
+                        placeholder="0"
+                        onChange={handleOptionLongTermGain} />
+                    {longTermGainError && <div className='invalid-feedback'>Please Enter a valid number</div>}
                 </div>
-                <div className="d-block d-md-none mt-3"></div>
-                <TaxDisplay />
+                <div className='col-sm-12 col-lg-6'>
+                    <span>Total Long Term Lost</span>
+                    <br />
+                    <input className={`w-100 rounder ${longTermLostError ? 'is-invalid' : ''}`} type="text"
+                        value={longTermLost}
+                        placeholder="0"
+                        onChange={handleOptionLongTermLost} />
+                    {longTermLostError && <div className='invalid-feedback'>Please Enter a valid number</div>}
+                </div>
             </div>
-        </div >
+
+            <h5 className='mb-2 mt-2'>
+                Enter Term Gain or Lost
+            </h5>
+            <div className='row' >
+                <div className='col-sm-12 col-lg-6'>
+                    <span>Total Short Term Gain</span>
+                    <br />
+                    <input className={`w-100 rounder ${shortTermGainError ? 'is-invalid' : ''}`} type="text"
+                        value={shortTermGain}
+                        placeholder="0"
+                        onChange={handleOptionShortTermGain} />
+                    {shortTermGainError && <div className='invalid-feedback'>Please Enter a valid number</div>}
+                </div>
+                <div className='col-sm-12 col-lg-6'>
+                    <span>Total Short Term Lost</span>
+                    <br />
+                    <input className={`w-100 rounder ${shortTermLostError ? 'is-invalid' : ''}`} type="text"
+                        value={shortTermLost}
+                        placeholder="0"
+                        onChange={handleOptionShortTermLost} />
+                    {shortTermGainError && <div className='invalid-feedback'>Please Enter a valid number</div>}
+                </div>
+            </div>
+
+        </div>
+
+
     )
 }

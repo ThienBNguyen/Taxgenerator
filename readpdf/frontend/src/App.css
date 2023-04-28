@@ -2,12 +2,24 @@
   /* text-align: center; */
   /* background-color: linear-gradient(135deg,#0097e6,#0077c5) */
 }
-
+/* .navbar-custom {
+  background-color: #333; 
+  color: #fff; 
+} */
+.navbar-toggle-custom {
+  background-color: #a62b2b; /* Replace with your desired background color */
+  color: #fff; /* Replace with your desired text color */
+}
+.navbar-toggle-custom .navbar-toggler-icon {
+  color: red; /* Replace with your desired color */
+}
 .App-logo {
   height: 40vmin;
   pointer-events: none;
 }
-
+.invalid-feedback{
+  color:red
+}
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;

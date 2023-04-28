@@ -1,13 +1,13 @@
 import { combineReducers } from 'redux';
 import counterReducer from './counterReducer';
-// import sumScheduleCReducer from './sumScheduleCReducer';
 import taxCalculateReducer from './taxCalculateReducer';
 import dependentReducer from './dependentReducer';
+import sheduleInputReducer from './scheduleInputReducer';
 const rootReducer = combineReducers({
 	counter: counterReducer,
-	// sum: sumScheduleCReducer,
 	taxCalculate: taxCalculateReducer,
-	dependentCount: dependentReducer
+	dependentCount: dependentReducer,
+	scheduleInput: sheduleInputReducer
 });
 
 export default rootReducer;
