@@ -14,7 +14,7 @@ export default function header() {
                 <Navbar key={expand} expand={expand} className="bg-dark text-white-50">
                     <Container fluid>
                         <Navbar.Brand className='text-white-50'> <Link
-                            to="/" className="text-decoration-none text-secondary " >Tax Generator</Link></Navbar.Brand>
+                            to="/" className="text-decoration-none text-secondary " >Tax Generator </Link></Navbar.Brand>
                         {/* <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-${expand}`} className="navbar-toggle-custom" /> */}
                         {/* <Navbar.Offcanvas
                             id={`offcanvasNavbar-expand-${expand}`}

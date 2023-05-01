@@ -111,11 +111,11 @@ export function calculateMarriedFilingJoinlyTax(income, federalHolding) {
     }
     return { taxBracket, accumulatedTax, taxableIncome, federalInputValue };
 }
-// export function calculateMarriedFilingSeparatelyTax(income) {
-//     const brackets = [10276, 41776, 89076, 170051, 215951, 539901];
-//     const rates = [10, 12, 22, 24, 32, 35, 37];
-//     return calculateTax(income, brackets, rates);
-// }
+export function calculateMarriedFilingTax(income) {
+    const brackets = [10276, 41776, 89076, 170051, 215951, 539901];
+    const rates = [10, 12, 22, 24, 32, 35, 37];
+    return calculateTax(income, brackets, rates);
+}
 export function calculateTax(income, brackets, rates) {
     let taxBracket, accumulatedTax;
     let bracketIndex = 0;

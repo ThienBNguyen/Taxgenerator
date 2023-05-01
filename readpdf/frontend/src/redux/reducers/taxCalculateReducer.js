@@ -41,18 +41,31 @@ const taxCalculateReducer = (state = initialState, action) => {
 			} else if (statusData === 'Head_of_Household') {
 				standardDeductionValue = standardDeduction.head_of_household;
 				estimateTaxableIncome = userWage - standardDeductionValue;
-				const { accumulatedTax, taxableIncome } = calculateHeadOfHouseholdTax(estimateTaxableIncome);
-				updatedState = { ...updatedState, accumulatedTax, taxableIncome };
+				const { accumulatedTax, taxableIncome, taxBracket, federalInputValue } = calculateHeadOfHouseholdTax(
+					estimateTaxableIncome,
+					holding
+				);
+				updatedState = { ...updatedState, accumulatedTax, taxableIncome, taxBracket, federalInputValue };
 			} else if (statusData === 'Married_Filing_Jointly') {
 				standardDeductionValue = standardDeduction.married_filing_jointly;
 				estimateTaxableIncome = userWage - standardDeductionValue;
-				const { accumulatedTax, taxableIncome } = calculateMarriedFilingJoinlyTax(estimateTaxableIncome);
-				updatedState = { ...updatedState, accumulatedTax, taxableIncome };
+				const {
+					accumulatedTax,
+					taxableIncome,
+					taxBracket,
+					federalInputValue
+				} = calculateMarriedFilingJoinlyTax(estimateTaxableIncome, holding);
+				updatedState = { ...updatedState, accumulatedTax, taxableIncome, taxBracket, federalInputValue };
 			} else if (statusData === 'Married_Filing_Separately') {
 				standardDeductionValue = standardDeduction.married_filing_separately;
 				estimateTaxableIncome = userWage - standardDeductionValue;
-				const { accumulatedTax, taxableIncome } = calculateMarriedFilingSeparatelyTax(estimateTaxableIncome);
-				updatedState = { ...updatedState, accumulatedTax, taxableIncome };
+				const {
+					accumulatedTax,
+					taxableIncome,
+					taxBracket,
+					federalInputValue
+				} = calculateMarriedFilingSeparatelyTax(estimateTaxableIncome, holding);
+				updatedState = { ...updatedState, accumulatedTax, taxableIncome, taxBracket, federalInputValue };
 			}
 			return updatedState;
 		default:
