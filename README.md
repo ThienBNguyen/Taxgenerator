@@ -1,6 +1,6 @@
 Tax Generator - ReactJS Application
 Tax Generator
-
+https://taxgenerate.netlify.app/
 This is a simple ReactJS application called Tax Generator. It allows users to calculate the amount of tax based on the provided income and tax rate.
 
 Installation
