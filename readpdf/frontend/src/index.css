@@ -6,8 +6,26 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+.block{
+  background: linear-gradient(135deg,#0097e6,#0077c5);
+  height: 2em;
+  margin-top:5px ;
+  margin-bottom: 5px;
+  text-align: center;
+  font-size: 1.3em;
+  color: white;
+  font-weight: bold;
+  /* text-align: justify; */
 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+.netProfitDisplay{
+  /* background-color: rgb(166, 181, 194); */
+  
 }

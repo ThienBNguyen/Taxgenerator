@@ -1,22 +1,25 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./clarifyStatus.css"
 import DependentQuestion from "./DependentQuestion";
 // import QuestionForms from "../components/questionforms/QuestionForms";
 export default function ClarifyStatus(props) {
-
-
     const [showAreYouMarriedQuestions, setShowAreYouMarriedQuestions] = useState(false);
     const [showMarriedJointly, setShowMarriedJointly] = useState("");
     const [showDoYouHaveDependent, setShowDoYouHaveDependent] = useState("");
     const [showDependentForm, setShowDependentForm] = useState("");
-
     const { handleChildData } = props
+useEffect(() => {
+    if (props.selectedFillingStatusOption === 'Unknown' ) {
+        setShowAreYouMarriedQuestions(false)
+        setShowMarriedJointly(false)
+        setShowDependentForm(false)
+    }
 
-
+}, [props.selectedFillingStatusOption]);
     const handleClaimAsDependent = (value) => {
         handleChildData(value);
-        setShowAreYouMarriedQuestions(value !== "yes");
+        setShowAreYouMarriedQuestions(value !== "yesClaim");
     };
 
     const handleFiledMarriedJointly = (value) => {
@@ -30,15 +33,20 @@ export default function ClarifyStatus(props) {
     };
 
     const handleAreYouMarried = (value) => {
-        setShowDoYouHaveDependent(true);
-        if (value === "no") {
-            setShowDoYouHaveDependent(true);
+       
+        // setShowDoYouHaveDependent(true);
+        if (value === "noMarried") {
+            handleChildData(value);
+            // setShowDoYouHaveDependent(true);
+            setShowMarriedJointly(false);
         }
-        if (value === "yes") {
+        if (value === "yesMarried") {
+            handleChildData(value);
             setShowMarriedJointly(true);
-            setShowDoYouHaveDependent(true);
+            // setShowDoYouHaveDependent(true);
         }
     };
+   
     return (
         <div>
             {props.selectedFillingStatusOption === 'Unknown' &&
@@ -46,8 +54,8 @@ export default function ClarifyStatus(props) {
                     <div><div className='mb-2'>Can someone claim you as a dependent?</div>
                         <div className='mb-2'>
                             <div className=" ">
-                                <button type="button" className="btn btn-primary me-3 px-3" onClick={() => handleClaimAsDependent("yes")}>Yes</button>
-                                <button type="button" className="btn btn-primary me-3 px-3" onClick={() => handleClaimAsDependent("no")}>No</button>
+                            <button type="button" className="btn btn-primary me-3 px-3" onClick={() => handleClaimAsDependent("yesClaim")}>Yes</button>
+                            <button type="button" className="btn btn-primary me-3 px-3" onClick={() => handleClaimAsDependent("noClaim")}>No</button>
                             </div>
                         </div></div>
                 )
@@ -58,8 +66,8 @@ export default function ClarifyStatus(props) {
                     <div className='mb-2'>
                         <div className="">
 
-                            <button type="button" className="btn btn-primary me-3 px-3" onClick={() => handleAreYouMarried("yes")}>Yes</button>
-                            <button type="button" className="btn btn-primary me-3 px-3" onClick={() => handleAreYouMarried("no")}>No</button>
+                            <button type="button" className="btn btn-primary me-3 px-3" onClick={() => handleAreYouMarried("yesMarried")}>Yes</button>
+                            <button type="button" className="btn btn-primary me-3 px-3" onClick={() => handleAreYouMarried("noMarried")}>No</button>
                         </div>
                     </div>
                 </div>

@@ -1,80 +1,122 @@
-import React, { useState } from 'react'
+import React, { useState,  } from 'react'
 import ClarifyStatus from './ClarifyStatus';
 
 export default function FileStatus(props) {
     const [selectedFillingStatusOption, setSelectedFillingStatusOption] = useState("");
+    const [marriedStatus, setMarriedStatus] = useState('');
+    const [hasDependents, setHasDependents] = useState('');
+    // const [fileWithPartner, setFileWithPartner] = useState('');
+    // const [claimStatus, setClaimStatus] = useState('');
     const handleOptionFillingStatusChange = (event) => {
         setSelectedFillingStatusOption(event.target.value);
         props.onDataFromChildFileStatus(event.target.value)
     };
-
-    // const handleChildData = (childData) => {
-    //     if (childData === 'yes') {
-    //         props.onDataFromChild('Single')
-    //         setSelectedFillingStatusOption('Single')
-    //     }
-    //     if (childData === 'no') {
-    //         props.onDataFromChild('Unknown')
-    //         setSelectedFillingStatusOption('Unknown')
-    //     }
-    //     if (childData === 'yesMarriedJointly') {
-    //         props.onDataFromChild('Married_Filing_Jointly')
-    //         setSelectedFillingStatusOption('Married_Filing_Jointly')
-    //     }
-    //     if (childData === 'noMarriedJointly') {
-    //         props.onDataFromChild('Married_Filing_Separately')
-    //         setSelectedFillingStatusOption('Married_Filing_Separately')
-    //         if (childData === 'yesDoYouHaveAnyDependent') {
-    //             props.onDataFromChild('Married_Filing_Separately')
-    //             setSelectedFillingStatusOption('Married_Filing_Separately')
-    //             // if (selectedFillingStatusOption === 'Married_Filing_Separately') {
-    //             //     setSelectedFillingStatusOption('Married_Filing_Separately')
-    //             //     props.onDataFromChild('Married_Filing_Separately')
-    //             // } else {
-    //             //     props.onDataFromChild('Married_Filing_Jointly')
-    //             //     setSelectedFillingStatusOption('Married_Filing_Jointly')
-    //             // }
-    //         }
-    //     }
-    //     // if (childData === 'yesDoYouHaveAnyDependent') {
-    //     //     if (selectedFillingStatusOption === 'Married_Filing_Separately') {
-    //     //         setSelectedFillingStatusOption('Married_Filing_Separately')
-    //     //         props.onDataFromChild('Married_Filing_Separately')
-    //     //     } else {
-    //     //         props.onDataFromChild('Married_Filing_Jointly')
-    //     //         setSelectedFillingStatusOption('Married_Filing_Jointly')
-    //     //     }
-    //     //     // props.onDataFromChild('Married_Filing_Jointly')
-    //     //     // setSelectedFillingStatusOption('Married_Filing_Jointly')
-
-    //     // }
-    //     if (childData === 'noDoYouHaveAnyDependent') {
-    //         if (selectedFillingStatusOption === 'Married_Filing_Separately') {
-    //             setSelectedFillingStatusOption('Married_Filing_Separately')
-    //             props.onDataFromChild('Married_Filing_Separately')
-    //         } else {
-    //             props.onDataFromChild('Married_Filing_Jointly')
-    //             setSelectedFillingStatusOption('Married_Filing_Jointly')
-    //         }
-
-    //     }
-
-    // };
     const handleChildData = (childData) => {
+    
         const childDataMapping = {
-            yes: 'Single',
-            no: 'Unknown',
+            yesClaim: 'Single',
+            noClaim: 'Unknown',
             yesMarriedJointly: 'Married_Filing_Jointly',
             noMarriedJointly: 'Married_Filing_Separately',
-            yesDoYouHaveAnyDependent: selectedFillingStatusOption === 'Married_Filing_Separately' ? 'Married_Filing_Separately' : 'Married_Filing_Jointly',
-            noDoYouHaveAnyDependent: selectedFillingStatusOption === 'Married_Filing_Separately' ? 'Married_Filing_Separately' : 'Married_Filing_Jointly',
+            yesDoYouHaveAnyDependent: marriedStatus === 'noMarried' ? 'Head_of_Household' : (marriedStatus === 'yesMarriedJointly' ? 'Married_Filing_Jointly' : 'Head_of_Household'),
+            noDoYouHaveAnyDependent: marriedStatus === 'noMarried' ? 'Single' : (marriedStatus === 'noMarriedJointly' ? 'Married_Filing_Separately' : 'Married_Filing_Jointly'),
+            yesMarried: hasDependents === 'yesDoYouHaveAnyDependent' ? 'Married_Filing_Jointly' : 'Married_Filing_Separately',
+            noMarried: 'Single',
         };
+ 
 
         if (childData in childDataMapping) {
+           
+       
+            if (childData === 'noMarried') {
+                setMarriedStatus('noMarried');
+            } else if (childData === 'yesMarried') {
+                setMarriedStatus('yesMarried');
+            } else if (childData === 'yesMarriedJointly') {
+                setMarriedStatus('yesMarriedJointly');
+            } else if (childData === 'noMarriedJointly') {
+                setMarriedStatus('noMarriedJointly');
+            }
+
+            if (childData === 'yesDoYouHaveAnyDependent') {
+                setHasDependents('yesDoYouHaveAnyDependent');
+            } else if (childData === 'noDoYouHaveAnyDependent') {
+                setHasDependents('noDoYouHaveAnyDependent');
+            }
             props.onDataFromChildFileStatus(childDataMapping[childData]);
             setSelectedFillingStatusOption(childDataMapping[childData]);
         }
     };
+    // const handleChildData = (childData) => {
+    //     if (childData === 'yesClaim'){
+    //         setClaimStatus('yesClaim')
+    //     }
+    //     if (childData === 'noClaim') {
+    //         setClaimStatus('noClaim')
+    //     }
+    //     if (childData === 'yesMarried') {
+    //         setMarriedStatus('yesMarried')
+    //     }
+    //     if (childData === 'noMarried') {
+    //         setMarriedStatus('noMarried')
+    //     }
+    //     if (childData === 'yesMarriedJointly') {
+    //         setFileWithPartner('yesMarriedJointly')
+    //     }
+    //     if (childData === 'noMarriedJointly') {
+    //         setFileWithPartner('noMarriedJointly')
+    //     }
+    //     if (childData === 'yesDoYouHaveAnyDependent') {
+    //         setHasDependents('yesDoYouHaveAnyDependent')
+    //     }
+    //     if (childData === 'noDoYouHaveAnyDependent') {
+    //         setHasDependents('noDoYouHaveAnyDependent')
+    //     }
+        
+    // };
+    // useEffect(() => {
+    //     let fileStatus;
+    //     console.log(selectedFillingStatusOption, 'selectedFillingStatusOption');
+    //     if (selectedFillingStatusOption === 'Unknown') {
+    //         if (claimStatus === 'yesClaim') {
+    //             fileStatus = 'Single';
+    //         } else if (claimStatus === 'noClaim') {
+    //             if (marriedStatus === 'yesMarried') {
+    //                 if (fileWithPartner === 'yesMarriedJointly') {
+    //                     fileStatus = 'Married_Filing_Jointly';
+    //                     if (hasDependents === 'yesDoYouHaveAnyDependent') {
+    //                         fileStatus = 'Married_Filing_Jointly';
+    //                     } else {
+    //                         fileStatus = 'Married_Filing_Jointly';
+    //                     }
+    //                 } else if (fileWithPartner === 'noMarriedJointly') {
+    //                     fileStatus = 'Married_Filing_Separately';
+    //                     if (hasDependents === 'yesDoYouHaveAnyDependent') {
+    //                         fileStatus = 'Head_of_Household';
+    //                     } else {
+    //                         fileStatus = 'Married_Filing_Separately';
+    //                     }
+    //                 }
+    //             }
+    //         }
+    //     } else if (selectedFillingStatusOption === 'Married_Filing_Jointly') {
+    //         if (hasDependents === 'yesDoYouHaveAnyDependent') {
+    //             fileStatus = 'Married_Filing_Jointly';
+    //         } else {
+    //             fileStatus = 'Married_Filing_Jointly';
+    //         }
+    //     } else if (selectedFillingStatusOption === 'Married_Filing_Separately') {
+    //         if (hasDependents === 'yesDoYouHaveAnyDependent') {
+    //             fileStatus = 'Head_of_Household';
+    //         } else {
+    //             fileStatus = 'Married_Filing_Separately';
+    //         }
+    //     }
+    //     if (fileStatus) {
+    //         props.onDataFromChildFileStatus(fileStatus);
+    //         setSelectedFillingStatusOption(fileStatus);
+    //     }
+    // }, [marriedStatus, hasDependents, fileWithPartner, claimStatus, selectedFillingStatusOption, props]); 
     return (
         <div className='mb-3'><div className='mb-2'>Select your filing status for 2022 below</div>
             <div className='mb-2'>
