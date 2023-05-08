@@ -4,27 +4,32 @@ import { useSelector } from 'react-redux';
 import { calculateDependentCredit } from '../../services/calculateDependency';
 export default function TaxDisplay(props) {
     const selfEmploymentTaxPercent = .1412955 
+    let totalTaxDue = 0
 
     const dependentCount = useSelector((state) => state.dependentCount);
     const accumulatedTaxFromRedux = useSelector((state) => state.taxCalculate);
     const dependentCredit = calculateDependentCredit(dependentCount.under16, dependentCount.over17);
-    // let taxableIncome = 0
     let accumulatedTax = accumulatedTaxFromRedux.accumulatedTax;
-    // taxableIncome = accumulatedTaxFromRedux.taxableIncome
-    // console.log(taxableIncome);
     let Refund = accumulatedTaxFromRedux.federalInputValue - accumulatedTax
     let taxBracket = accumulatedTaxFromRedux.taxBracket || '0%';
     //calculate other tax with schedule C
-    let totalTaxDue = 0
-    const totalExpense = useSelector((state) => state.scheduleInput.totalExpense);
-    const totalRevenue = useSelector((state) => state.scheduleInput.totalRevenue);
-    const longTermGainOrLoss = useSelector((state) => state.scheduleInput.longTermGainOrLoss);
-    const shortTermGainOrLoss = useSelector((state) => state.scheduleInput.shortTermGainOrLoss);
-    const rentalIncome = useSelector((state) => state.scheduleInput.rentalIncome);
-    const rentalExpenses = useSelector((state) => state.scheduleInput.rentalExpenses);
-    const grossIncome = useSelector((state) => state.scheduleInput.grossIncome);
+    const totalExpenseFromReducer = useSelector((state) => state.scheduleInput.totalExpense);
+    const totalExpense = totalExpenseFromReducer === "" ? 0 : parseInt(totalExpenseFromReducer);
+    const totalRevenueFromReducer = useSelector((state) => state.scheduleInput.totalRevenue);
+    const totalRevenue = totalRevenueFromReducer === "" ? 0 : parseInt(totalRevenueFromReducer);
+    const longTermGainOrLossFromReducer = useSelector((state) => state.scheduleInput.longTermGainOrLoss)
+    const longTermGainOrLoss = longTermGainOrLossFromReducer === "" ? 0 : parseInt(longTermGainOrLossFromReducer);
+    const shortTermGainOrLossFromReducer = useSelector((state) => state.scheduleInput.shortTermGainOrLoss);
+    const shortTermGainOrLoss = shortTermGainOrLossFromReducer === "" ? 0 : parseInt(shortTermGainOrLossFromReducer);
+    const rentalIncomeFromReducer = useSelector((state) => state.scheduleInput.rentalIncome)
+    const rentalIncome = rentalIncomeFromReducer === "" ? 0 : parseInt(rentalIncomeFromReducer);
+    const rentalExpensesFromReducer = useSelector((state) => state.scheduleInput.rentalExpenses)
+    const rentalExpenses = rentalExpensesFromReducer === "" ? 0 : parseInt(rentalExpensesFromReducer);
+    const grossIncomeFromReducer = useSelector((state) => state.scheduleInput.grossIncome)  
+    const grossIncome = grossIncomeFromReducer === "" ? 0 : parseInt(grossIncomeFromReducer);
     let otherTax = Math.round((totalRevenue - totalExpense) * selfEmploymentTaxPercent)
-    let totalIncome = parseInt(totalRevenue) - parseInt(totalExpense) + parseInt(longTermGainOrLoss) + parseInt(shortTermGainOrLoss) + parseInt(rentalIncome) - parseInt(rentalExpenses) + parseInt(grossIncome) 
+    let totalIncome = (totalRevenue) - (totalExpense) + (longTermGainOrLoss) + (shortTermGainOrLoss) + (rentalIncome) - (rentalExpenses) + (grossIncome) 
+    console.log(totalIncome);
     let scheduleCNetProfit = parseInt(totalRevenue) - parseInt(totalExpense)
     let adjustToIncome = 0
   
@@ -54,17 +59,17 @@ export default function TaxDisplay(props) {
                 <h6>
                     Total Income:
                 </h6>
-                <h1 className=''>${Math.round(totalIncome.toLocaleString("en-US", { minimumFractionDigits: 0 })) || 0}</h1>
+                <h1 className=''>${(totalIncome.toLocaleString("en-US", { minimumFractionDigits: 0 }))}</h1>
                 <hr></hr>
                 <h6>
                     Adjustment To Income:
                 </h6>
-                <h1 className=''>${Math.round(adjustToIncome.toLocaleString("en-US", { minimumFractionDigits: 0 })) || 0}</h1>
+                <h1 className=''>${(adjustToIncome.toLocaleString("en-US", { minimumFractionDigits: 0 })) }</h1>
                 <hr></hr>
                 <h6>
                     Estimated Taxable Income:
                 </h6>
-                <h1 className=''>${Math.round(estimateTaxableIncomeFinal.toLocaleString("en-US", { minimumFractionDigits: 0 })) || 0}</h1>
+                <h1 className=''>${(estimateTaxableIncomeFinal.toLocaleString("en-US", { minimumFractionDigits: 0 })) }</h1>
                 <hr></hr>
                 <h6>Tax Due</h6>
                 <h1> {accumulatedTax.toLocaleString("en-US", { minimumFractionDigits: 0 })}</h1>
