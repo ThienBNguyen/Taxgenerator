@@ -14,17 +14,15 @@ export default function TaxForm() {
     const [federalInputValueError, setFederalInputValueError] = useState(false);
     const [dataFromChildFileStatus, setDataFromChildFileStatus] = useState("0");
     const dispatch = useDispatch();
-    const totalExpenseFromReducer = useSelector((state) => state.scheduleInput.totalExpense);
-    const totalExpense = totalExpenseFromReducer === "" ? 0 : parseInt(totalExpenseFromReducer);
-    const totalRevenueFromReducer = useSelector((state) => state.scheduleInput.totalRevenue);
-    const totalRevenue = totalRevenueFromReducer === "" ? 0 : parseInt
+    const expenses = parseInt(useSelector((state) => state.scheduleInput.totalExpense));
+    const revenue = parseInt(useSelector((state) => state.scheduleInput.totalRevenue));
     
     function handleDataFromChildFileStatus(data) {
         setDataFromChildFileStatus(data);
     }
     const handleUserWage = (event) => {
         const value = (event.target.value);
-        setTotalEstimateTaxableIncome(parseInt(value) + (totalRevenue) - (totalExpense))
+        setTotalEstimateTaxableIncome(parseInt(value) + parseInt(revenue) - parseInt(expenses))
         dispatch({ type: 'UPDATE_GROSS_INCOME', payload: value});
         setInputValue(value);
         if (!isNaN(value)) {

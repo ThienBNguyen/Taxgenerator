@@ -29,7 +29,6 @@ export default function TaxDisplay(props) {
     const grossIncome = grossIncomeFromReducer === "" ? 0 : parseInt(grossIncomeFromReducer);
     let otherTax = Math.round((totalRevenue - totalExpense) * selfEmploymentTaxPercent)
     let totalIncome = (totalRevenue) - (totalExpense) + (longTermGainOrLoss) + (shortTermGainOrLoss) + (rentalIncome) - (rentalExpenses) + (grossIncome) 
-    console.log(totalIncome);
     let scheduleCNetProfit = parseInt(totalRevenue) - parseInt(totalExpense)
     let adjustToIncome = 0
   
