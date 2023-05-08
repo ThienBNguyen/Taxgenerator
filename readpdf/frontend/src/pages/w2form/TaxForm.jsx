@@ -22,7 +22,7 @@ export default function TaxForm() {
     }
     const handleUserWage = (event) => {
         const value = (event.target.value);
-            setTotalEstimateTaxableIncome((value) + revenue - expenses)
+        setTotalEstimateTaxableIncome(parseInt(value) + parseInt(revenue) - parseInt(expenses))
         dispatch({ type: 'UPDATE_GROSS_INCOME', payload: value || 0  });
         setInputValue(value);
         if (!isNaN(value)) {
@@ -35,8 +35,8 @@ export default function TaxForm() {
         if (inputValue === "0") {
             setInputValue("");
         }
-        if (federalInputValueError === "0") {
-            setDataFromChildFileStatus("");
+        if (federalInputValue === "0") {
+            setFederalInputValue("");
         }
     }
     const handleFederalInputChange = (event) => {
@@ -49,7 +49,9 @@ export default function TaxForm() {
         }
     };
     useEffect(() => {
+        console.log(totalEstimateTaxableIncome);
         const options = { status: dataFromChildFileStatus, userWage: totalEstimateTaxableIncome, federalInputValue: federalInputValue }
+        console.log(options);
         dispatch({ type: 'CALCULATE_ACCUMULATED_TAX', payload: options });
     }, [dataFromChildFileStatus, dispatch, totalEstimateTaxableIncome, federalInputValue]);
 
@@ -81,7 +83,7 @@ export default function TaxForm() {
                                 <span>
                                     Enter your Federal Income Tax Withholding (YTD) or Form W-2 Box 5
                                 </span>
-                                <input type="text" value={federalInputValue} onChange={handleFederalInputChange} placeholder="0" className={`w-100 rounder ${federalInputValueError ? 'is-invalid' : ''}`} onFocus={clearInput} />
+                                <input type="text" value={federalInputValue} onFocus={clearInput}  onChange={handleFederalInputChange} placeholder="0" className={`w-100 rounder ${federalInputValueError ? 'is-invalid' : ''}`}  />
                                 {federalInputValueError && <div className='invalid-feedback'>Please Enter a valid number</div>}
                             </div>
                         </div>
