@@ -6,6 +6,7 @@ import TaxDisplay from '../../components/taxdisplay/TaxDisplay';
 import ScheduleCFormSimple from '../scheduleC/ScheduleCFormSimple';
 import ScheduleDFormSimple from '../scheduleD/ScheduleDFormSimple';
 import ScheduleEFormSimple from '../scheduleE/ScheduleEFormSimple';
+// import calculateLongTermCapitalGainsTax from '../../services/calculateCapitalGain';
 export default function TaxForm() {
     const [inputValue, setInputValue] = useState('0');
     const [federalInputValue, setFederalInputValue] = useState("0");
@@ -16,7 +17,8 @@ export default function TaxForm() {
     const dispatch = useDispatch();
     const expenses = parseInt(useSelector((state) => state.scheduleInput.totalExpense));
     const revenue = parseInt(useSelector((state) => state.scheduleInput.totalRevenue));
-    
+    const longTermGainOrLoss = parseInt(useSelector((state) => state.scheduleInput.longTermGainOrLoss));
+    const shortTermGainOrLoss = parseInt(useSelector((state) => state.scheduleInput.shortTermGainOrLoss));
     function handleDataFromChildFileStatus(data) {
         setDataFromChildFileStatus(data);
     }
@@ -52,7 +54,14 @@ export default function TaxForm() {
         const options = { status: dataFromChildFileStatus, userWage: totalEstimateTaxableIncome, federalInputValue: federalInputValue }
         dispatch({ type: 'CALCULATE_ACCUMULATED_TAX', payload: options });
     }, [dataFromChildFileStatus, dispatch, totalEstimateTaxableIncome, federalInputValue]);
-
+    useEffect(() => {
+        const longTermGainOrLossOption = { status: dataFromChildFileStatus, taxGain: longTermGainOrLoss }
+        dispatch({ type: 'CALCULATE_LONG_CAPITAL_GAIN_TAX', payload: longTermGainOrLossOption });
+    }, [dataFromChildFileStatus, dispatch, longTermGainOrLoss]);
+    useEffect(() => {
+        const shortTermGainOrLossOption = { status: dataFromChildFileStatus || 'Single', taxGain: shortTermGainOrLoss}
+        dispatch({ type: 'CALCULATE_SHORT_CAPITAL_GAIN_TAX', payload: shortTermGainOrLossOption });
+    }, [dataFromChildFileStatus, dispatch, shortTermGainOrLoss,])
     return (
 
         <div className="container py-4">

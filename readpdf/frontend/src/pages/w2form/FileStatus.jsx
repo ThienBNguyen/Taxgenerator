@@ -40,7 +40,7 @@ export default function FileStatus(props) {
             setSelectedFillingStatusOption(fileStatus);
         }
     };
-    
+  
     return (
         <div className='mb-3'><div className='mb-2'>Select your filing status for 2022 below</div>
             <div className='mb-2'>

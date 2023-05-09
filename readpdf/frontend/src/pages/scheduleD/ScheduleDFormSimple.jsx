@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 export default function ScheduleDFormSimple() {
     const [longTermGain, setLongTermGain] = useState("0")
     const [shortTermGain, setShortTermGain] = useState("0")
@@ -16,7 +16,8 @@ export default function ScheduleDFormSimple() {
             setLongTermGainError(true)
         }
     };
- 
+    const longTermGainTax = Math.round(useSelector((state) => (state.longCapitalGain.longTaxGain)))
+    const shortTermGainTax = Math.round(useSelector((state) => (state.shortCapitalGain.shortTaxGain)))
     const handleOptionShortTermGain = (event) => {
         const value = event.target.value;
         setShortTermGain(value);
@@ -52,6 +53,12 @@ export default function ScheduleDFormSimple() {
                         onChange={handleOptionShortTermGain} onFocus={clearInput}/>
                     {shortTermGainError && <div className='invalid-feedback'>Please Enter a valid number</div>}
                 </div>
+                <div className='col-sm-12 col-lg-6'>
+                    <span>short-term capital tax</span>
+                    <br />
+                    {
+                        <h4 className='text-danger'>$ {shortTermGainTax.toLocaleString("en-US", { minimumFractionDigits: 0 })}</h4>}
+                </div>
             </div>
 
             <h5 className='mb-2 mt-2'>
@@ -67,7 +74,12 @@ export default function ScheduleDFormSimple() {
                         onChange={handleOptionLongTermGain} onFocus={clearInput}/>
                     { longTermGainError && <div className='invalid-feedback'>Please Enter a valid number</div>}
                 </div>
-             
+                <div className='col-sm-12 col-lg-6'>
+                    <span>long-term capital tax</span>
+                    <br />
+                    {
+                        <h4 className='text-danger'>$ {longTermGainTax.toLocaleString("en-US", { minimumFractionDigits: 0 })}</h4>}
+                </div>
             </div>
 
         </div>
