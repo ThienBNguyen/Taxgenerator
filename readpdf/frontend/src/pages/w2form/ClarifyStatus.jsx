@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./clarifyStatus.css"
 import DependentQuestion from "./DependentQuestion";
+import LanguageContext from "../../services/LanguageContext";
 // import QuestionForms from "../components/questionforms/QuestionForms";
 export default function ClarifyStatus(props) {
     const [showAreYouMarriedQuestions, setShowAreYouMarriedQuestions] = useState(false);
@@ -9,6 +10,16 @@ export default function ClarifyStatus(props) {
     const [showDoYouHaveDependent, setShowDoYouHaveDependent] = useState("");
     const [showDependentForm, setShowDependentForm] = useState("");
     const { handleChildData } = props
+    const { currentLanguage, translateText } = useContext(LanguageContext);
+
+    const getTranslatedText = (key, fallback) => {
+        return currentLanguage === 'vi' ? translateText(key) : fallback;
+    };
+
+    const claimyouasadependent = getTranslatedText('Can someone claim you as a dependent?', 'Can someone claim you as a dependent?');
+    const Areyoumarried = getTranslatedText('Are you married?', 'Are you married?');
+    const filedmarriedJointly = getTranslatedText('Will you filed married Jointly?', 'Will you filed married Jointly?')
+    const haveanydependent = getTranslatedText('Do you have any dependent?', 'Do you have any dependent?');
 useEffect(() => {
     if (props.selectedFillingStatusOption === 'Unknown' ) {
         setShowAreYouMarriedQuestions(false)
@@ -51,7 +62,7 @@ useEffect(() => {
         <div>
             {props.selectedFillingStatusOption === 'Unknown' &&
                 (
-                    <div><div className='mb-2'>Can someone claim you as a dependent?</div>
+                <div><div className='mb-2'>{claimyouasadependent}</div>
                         <div className='mb-2'>
                             <div className=" ">
                             <button type="button" className="btn btn-primary me-3 px-3" onClick={() => handleClaimAsDependent("yesClaim")}>Yes</button>
@@ -62,7 +73,7 @@ useEffect(() => {
             }
             {showAreYouMarriedQuestions && (
                 <div>
-                    < div className='mb-2' > Are you married?</div >
+                    < div className='mb-2' > {Areyoumarried}</div >
                     <div className='mb-2'>
                         <div className="">
 
@@ -75,7 +86,7 @@ useEffect(() => {
             {
                 showMarriedJointly && (
                     <div>
-                        < div className='mb-2' > Will you filed married Jointly?</div >
+                        < div className='mb-2' > {filedmarriedJointly}</div >
                         <div className='mb-2'>
                             <div className="">
                                 <button className="btn btn-primary me-3 px-3" onClick={() => handleFiledMarriedJointly("yesMarriedJointly")}>Yes</button>
@@ -88,7 +99,7 @@ useEffect(() => {
             {
                 showDoYouHaveDependent || props.selectedFillingStatusOption === "Married_Filing_Jointly" || props.selectedFillingStatusOption === "Married_Filing_Separately" ? (
                     <div>
-                        < div className='mb-2' > Do you have any dependent?</div >
+                        < div className='mb-2' > {haveanydependent}</div >
                         <div className='mb-2'>
                             <div className="">
                                 <button type="button" className="btn btn-primary me-3 px-3" onClick={() => handleShowDoYouHaveDependent("yesDoYouHaveAnyDependent")}>Yes</button>

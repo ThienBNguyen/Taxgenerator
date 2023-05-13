@@ -22,6 +22,9 @@ body {
   align-items: center;
   justify-content: center;
 }
+.btnLanguage{
+  width: 50px;
+}
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;

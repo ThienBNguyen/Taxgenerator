@@ -1,10 +1,10 @@
 import React from 'react'
-import { Container, Row, Col } from 'react-bootstrap';
+// import { Container, Row, Col } from 'react-bootstrap';
 import './footer.css'
 export default function Footer() {
     return (
         <div className='footer text-center bg-dark text-white-50 pt-4'>
-            <Container>
+            {/* <Container>
                 <Row>
                     <Col xs={12} sm={6} md={4}>
                         <h5>About Us</h5>
@@ -23,9 +23,9 @@ export default function Footer() {
                         </ul>
                     </Col>
                 </Row>
-            </Container>
+            </Container> */}
             <div className="text-center p-3">
-                <p>&copy; 2023 Your Company, Inc.</p>
+                <p>&copy; 2023 TAXSMT, Inc.</p>
             </div>
         </div>
     )

@@ -1,5 +1,6 @@
-import React, { useState,  } from 'react'
+import React, { useContext, useState,  } from 'react'
 import ClarifyStatus from './ClarifyStatus';
+import LanguageContext from '../../services/LanguageContext';
 
 export default function FileStatus(props) {
     const [selectedFillingStatusOption, setSelectedFillingStatusOption] = useState("");
@@ -40,22 +41,33 @@ export default function FileStatus(props) {
             setSelectedFillingStatusOption(fileStatus);
         }
     };
-  
+    const { currentLanguage, translateText } = useContext(LanguageContext);
+
+    const getTranslatedText = (key, fallback) => {
+        return currentLanguage === 'vi' ? translateText(key) : fallback;
+    };
+
+    const filingstatusfor2022 = getTranslatedText('Select your filing status for 2022 below', 'Select your filing status for 2022 below');
+    const Single = getTranslatedText('Single', 'Single');
+    const HeadofHousehold = getTranslatedText('Head of Household', 'Head of Household')
+    const MarriedFilingJointly = getTranslatedText('Married Filing Jointly', 'Married Filing Jointly');
+    const MarriedFilingSeparately = getTranslatedText('Married Filing Separately', 'Married Filing Separately');
+    const Unknown = getTranslatedText('Unknown', 'Unknown');
     return (
-        <div className='mb-3'><div className='mb-2'>Select your filing status for 2022 below</div>
+        <div className='mb-3'><div className='mb-2'>{filingstatusfor2022}</div>
             <div className='mb-2'>
                 <input type="checkbox"
                     name="options"
                     value="Single"
                     checked={selectedFillingStatusOption === "Single"}
-                    onChange={handleOptionFillingStatusChange} /> Single
+                    onChange={handleOptionFillingStatusChange} /> {Single}
             </div>
             <div className='mb-2'>
                 <input type="checkbox"
                     name="options"
                     value="Head_of_Household"
                     checked={selectedFillingStatusOption === "Head_of_Household"}
-                    onChange={handleOptionFillingStatusChange} /> Head of Household
+                    onChange={handleOptionFillingStatusChange} /> {HeadofHousehold}
 
             </div>
             <div className='mb-2'>
@@ -63,7 +75,7 @@ export default function FileStatus(props) {
                     name="options"
                     value="Married_Filing_Jointly"
                     checked={selectedFillingStatusOption === "Married_Filing_Jointly"}
-                    onChange={handleOptionFillingStatusChange} /> Married Filing Jointly
+                    onChange={handleOptionFillingStatusChange} /> {MarriedFilingJointly}
 
             </div>
             <div className='mb-2'>
@@ -71,7 +83,7 @@ export default function FileStatus(props) {
                     name="options"
                     value="Married_Filing_Separately"
                     checked={selectedFillingStatusOption === "Married_Filing_Separately"}
-                    onChange={handleOptionFillingStatusChange} /> Married Filing Separately
+                    onChange={handleOptionFillingStatusChange} /> {MarriedFilingSeparately}
 
             </div>
             <div className='mb-2'>
@@ -79,7 +91,7 @@ export default function FileStatus(props) {
                     name="options"
                     value="Unknown"
                     checked={selectedFillingStatusOption === "Unknown"}
-                    onChange={handleOptionFillingStatusChange} /> Unknown
+                    onChange={handleOptionFillingStatusChange} /> {Unknown}
             </div>
             {/* {showAdditionalQuestions && ( */}
             <ClarifyStatus handleChildData={handleChildData} selectedFillingStatusOption={selectedFillingStatusOption} />

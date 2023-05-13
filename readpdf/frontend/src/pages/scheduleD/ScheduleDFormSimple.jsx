@@ -1,5 +1,6 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import LanguageContext from '../../services/LanguageContext'
 export default function ScheduleDFormSimple() {
     const [longTermGain, setLongTermGain] = useState("0")
     const [shortTermGain, setShortTermGain] = useState("0")
@@ -37,24 +38,37 @@ export default function ScheduleDFormSimple() {
             setShortTermGain("");
         }
     }
+    const { currentLanguage, translateText } = useContext(LanguageContext);
+
+    const getTranslatedText = (key, fallback) => {
+        return currentLanguage === 'vi' ? translateText(key) : fallback;
+    };
+
+    const Shortterm = getTranslatedText('Short-term Capital Gains & Losses (Held less than 1 year)', 'Short-term Capital Gains & Losses (Held less than 1 year)');
+    const TotalNetshortterm = getTranslatedText('Total Net short-term capital gain or (lost)', 'Total Net short-term capital gain or (lost)');
+    const LongtermCapital = getTranslatedText('Long-term Capital Gains & Losses (Held more than 1 year)', 'Long-term Capital Gains & Losses (Held more than 1 year)')
+    const shorttermcapitaltax = getTranslatedText('short-term capital tax', 'short-term capital tax');
+    const TotalNetlongterm = getTranslatedText('Total Net long-term capital gain or (lost)', 'Total Net long-term capital gain or (lost)');
+    const longtermcapitaltax = getTranslatedText('long-term capital tax', 'long-term capital tax');
+    const Enteravalidnumber = getTranslatedText('Please Enter a valid number', 'Please Enter a valid number');
     return (
 
         <div>
             <h5 className='mb-2'>
-                Short-term Capital Gains & Losses (Held less than 1 year)
+                {Shortterm}
             </h5>
             <div className='row' >
                 <div className='col-sm-12 col-lg-6'>
-                    <span>Total Net short-term capital gain or (lost)</span>
+                    <span>{TotalNetshortterm}</span>
                     <br />
                     <input className={`w-100 rounder ${ shortTermGainError ? 'is-invalid' : ''}`} type="text"
                         value={shortTermGain}
                         placeholder="0"
                         onChange={handleOptionShortTermGain} onFocus={clearInput}/>
-                    {shortTermGainError && <div className='invalid-feedback'>Please Enter a valid number</div>}
+                    {shortTermGainError && <div className='invalid-feedback'>{Enteravalidnumber}</div>}
                 </div>
                 <div className='col-sm-12 col-lg-6'>
-                    <span>short-term capital tax</span>
+                    <span>{shorttermcapitaltax}</span>
                     <br />
                     {
                         <h4 className='text-danger'>$ {shortTermGainTax.toLocaleString("en-US", { minimumFractionDigits: 0 })}</h4>}
@@ -62,20 +76,20 @@ export default function ScheduleDFormSimple() {
             </div>
 
             <h5 className='mb-2 mt-2'>
-                Long-term Capital Gains & Losses (Held more than 1 year)
+                {LongtermCapital}
             </h5>
             <div className='row' >
                 <div className='col-sm-12 col-lg-6'>
-                    <span>Total Net long-term capital gain or (lost)</span>
+                    <span>{TotalNetlongterm}</span>
                     <br />
                     <input className={`w-100 rounder ${longTermGainError ? 'is-invalid' : ''}`} type="text"
                         value={longTermGain}
                         placeholder="0"
                         onChange={handleOptionLongTermGain} onFocus={clearInput}/>
-                    { longTermGainError && <div className='invalid-feedback'>Please Enter a valid number</div>}
+                    { longTermGainError && <div className='invalid-feedback'>{Enteravalidnumber}</div>}
                 </div>
                 <div className='col-sm-12 col-lg-6'>
-                    <span>long-term capital tax</span>
+                    <span>{longtermcapitaltax}</span>
                     <br />
                     {
                         <h4 className='text-danger'>$ {longTermGainTax.toLocaleString("en-US", { minimumFractionDigits: 0 })}</h4>}

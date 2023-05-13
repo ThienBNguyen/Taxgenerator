@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { useDispatch, useSelector } from "react-redux";
 import './taxForm.css'
 import FileStatus from './FileStatus';
@@ -6,8 +6,9 @@ import TaxDisplay from '../../components/taxdisplay/TaxDisplay';
 import ScheduleCFormSimple from '../scheduleC/ScheduleCFormSimple';
 import ScheduleDFormSimple from '../scheduleD/ScheduleDFormSimple';
 import ScheduleEFormSimple from '../scheduleE/ScheduleEFormSimple';
-// import calculateLongTermCapitalGainsTax from '../../services/calculateCapitalGain';
+import LanguageContext from '../../services/LanguageContext';
 export default function TaxForm() {
+    const { currentLanguage, translateText } = useContext(LanguageContext);
     const [inputValue, setInputValue] = useState('0');
     const [federalInputValue, setFederalInputValue] = useState("0");
     const [totalEstimateTaxableIncome, setTotalEstimateTaxableIncome] = useState(0);
@@ -62,45 +63,60 @@ export default function TaxForm() {
         const shortTermGainOrLossOption = { status: dataFromChildFileStatus || 'Single', taxGain: shortTermGainOrLoss}
         dispatch({ type: 'CALCULATE_SHORT_CAPITAL_GAIN_TAX', payload: shortTermGainOrLossOption });
     }, [dataFromChildFileStatus, dispatch, shortTermGainOrLoss,])
+
+    const getTranslatedText = (key, fallback) => {
+        return currentLanguage === 'vi' ? translateText(key) : fallback;
+    };
+
+    const StatusDependents = getTranslatedText('Filing Status & Dependents', 'Filing Status & Dependents');
+    const Income = getTranslatedText('Income', 'Income');
+    const EnteryourGross = getTranslatedText('Enter your Gross Pay (YTD) or Form W-2 Box 1', 'Enter your Gross Pay (YTD) or Form W-2 Box 1')
+    const Enteravalidnumber = getTranslatedText('Please Enter a valid number', 'Please Enter a valid number');
+    const FederalIncomeTax = getTranslatedText('Enter your Federal Income Tax Withholding (YTD) or Form W-2 Box 5', 'Enter your Federal Income Tax Withholding (YTD) or Form W-2 Box 5');
+    const BusinessIncome = getTranslatedText('Business Income', 'Business Income');
+    const InvestmentIncome = getTranslatedText('Investment Income', 'Investment Income');
+    const RentalIncome = getTranslatedText('Rental Income', 'Rental Income');
+
+
     return (
 
         <div className="container py-4">
             <div className='row'>
                 <div className='col-sm-12 col-lg-7 bg-clear border-5  rounded p-3 shadow-lg '>
                     <div className=''>
-                        <div className='block'>Filing Status & Dependents</div>
+                        <div className='block'>{StatusDependents}</div>
 
                         <div >
                             <FileStatus onDataFromChildFileStatus={handleDataFromChildFileStatus} />
                         </div>
-                        <div className='block'>Income</div>
+                        <div className='block'>{Income}</div>
 
                         <div className="row">
                             <div className="col-lg-6 col-sm-12">
                                 <span>
-                                    Enter your Gross Pay (YTD) or Form W-2 Box 1
+                                    {EnteryourGross}
                                 </span>
                                 <input type="text" value={inputValue} onChange={handleUserWage} placeholder="0" className={`w-100 rounder ${inputValueError ? 'is-invalid' : ''}`} onFocus={clearInput} />
-                                {inputValueError && <div className='invalid-feedback'>Please Enter a valid number</div>}
+                                {inputValueError && <div className='invalid-feedback'>{Enteravalidnumber}</div>}
 
                             </div>
                         </div>
                         <div className="row">
                             <div className="col-lg-6 col-sm-12">
                                 <span>
-                                    Enter your Federal Income Tax Withholding (YTD) or Form W-2 Box 5
+                                    {FederalIncomeTax}
                                 </span>
                                 <input type="text" value={federalInputValue} onFocus={clearInput}  onChange={handleFederalInputChange} placeholder="0" className={`w-100 rounder ${federalInputValueError ? 'is-invalid' : ''}`}  />
-                                {federalInputValueError && <div className='invalid-feedback'>Please Enter a valid number</div>}
+                                {federalInputValueError && <div className='invalid-feedback'>{Enteravalidnumber}</div>}
                             </div>
                         </div>
-                        <div className='block'>Business Income</div>
+                        <div className='block'>{BusinessIncome}</div>
 
                         <ScheduleCFormSimple />
-                        <div className='block'>Investment Income</div>
+                        <div className='block'>{InvestmentIncome}</div>
 
                         <ScheduleDFormSimple />
-                        <div className='block'>Rental Income</div>
+                        <div className='block'>{RentalIncome}</div>
 
                         <ScheduleEFormSimple />
 

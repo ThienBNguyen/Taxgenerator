@@ -1,5 +1,6 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { useDispatch } from 'react-redux'
+import LanguageContext from '../../services/LanguageContext';
 export default function DependentQuestion() {
     const [under16, setUnder16] = useState("")
     const [over17, setOver17] = useState("")
@@ -12,14 +13,24 @@ export default function DependentQuestion() {
         setOver17(event.target.value);
         dispatch({ type: 'UPDATE_OVER_17', payload: event.target.value })
     };
+    const { currentLanguage, translateText } = useContext(LanguageContext);
+
+    const getTranslatedText = (key, fallback) => {
+        return currentLanguage === 'vi' ? translateText(key) : fallback;
+    };
+
+    const EnternumberofDependents = getTranslatedText('Enter number of Dependents', ' Enter number of Dependents');
+    const UnderAgeof17 = getTranslatedText('Under Age of 17', 'Under Age of 17');
+    const Fulltimestudents = getTranslatedText('Full-time students age 17-23 or Other Dependent', 'Full-time students age 17-23 or Other Dependent')
+
     return (
         <div>
             <h5 className='mb-2'>
-                Enter number of Dependents
+                {EnternumberofDependents}
             </h5>
             <div className='row' >
                 <div className='col-sm-12 col-lg-6'>
-                    <span>Under Age of 17</span>
+                    <span>{UnderAgeof17}</span>
                     <br />
                     <input className='w-100 rounder' type="text"
                         value={under16}
@@ -27,7 +38,7 @@ export default function DependentQuestion() {
                         onChange={handleOptionUnder16Change} />
                 </div>
                 <div className='col-sm-12 col-lg-6'>
-                    <span>Full-time students age 17-23 or Other Dependent</span>
+                    <span>{Fulltimestudents}</span>
                     <br />
                     <input className='w-100 rounder' type="text"
                         value={over17}
