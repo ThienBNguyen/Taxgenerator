@@ -50,7 +50,8 @@ export const LanguageProvider = ({ children }) => {
   'Please Enter a valid number':'Vui lòng nhập một số hợp lệ',
   'Enter number of Dependents':'Nhập số lượng Người phụ thuộc',
   'Full-time students age 17-23 or Other Dependent':'Sinh viên toàn thời gian tuổi 17-23 hoặc người phụ thuộc khác',
-  'Under Age of 17': 'Dưới 17 tuổi'
+  'Under Age of 17': 'Dưới 17 tuổi',
+  'Credits':'Tín dụng'
 
       // Add more key-value pairs for other translations
     };
