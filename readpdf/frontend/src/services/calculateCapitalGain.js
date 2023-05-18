@@ -1,7 +1,6 @@
 //year 2022 
 export const calculateLongTermCapitalGainsTax = (gain, taxableIncome = 0, filingStatus) => {
-    console.log(filingStatus);
-    console.log(gain);
+  
     let tax = 0;
 
  if (filingStatus === 'Single') {

@@ -25,6 +25,17 @@ body {
 .btnLanguage{
   width: 50px;
 }
+.TaxDisplaySimpleForm{
+  font-size: 1.2em;
+ position: sticky ;
+   top: 70px;
+   z-index: 1
+}
+.navbarDisplay{
+ position: sticky !important;
+  top: 0;
+  z-index: 1;
+}
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
@@ -33,3 +44,8 @@ code {
   /* background-color: rgb(166, 181, 194); */
   
 }
+ @media (min-width: 600px) {
+                    .TaxDisplaySimpleForm {
+                        display: none;
+                    }
+                }

@@ -45,8 +45,6 @@ export default function TaxDisplay() {
     let totalIncome = (totalRevenue) - (totalExpense) + (longTermGainOrLoss) + (shortTermGainOrLoss) + (rentalIncome) - (rentalExpenses) + (grossIncome) 
     let scheduleCNetProfit = parseInt(totalRevenue) - parseInt(totalExpense)
     let adjustToIncome = 0
-  
-  
     
     let estimateTaxableIncome = totalIncome-adjustToIncome
     let calculateQBIDeduction  = 0
@@ -101,9 +99,9 @@ export default function TaxDisplay() {
                 </h6>
 
                 {Refund < 0 ? (
-                    <h1 className='text-danger'>$ {Refund.toLocaleString("en-US", { minimumFractionDigits: 0 })}</h1>
+                    <h1 className='text-danger'>${Refund.toLocaleString("en-US", { minimumFractionDigits: 0 })}</h1>
                 ) : (
-                    <h1 className='text-success'>$ {Refund.toLocaleString("en-US", { minimumFractionDigits: 0 })}</h1>
+                    <h1 className='text-success'>${Refund.toLocaleString("en-US", { minimumFractionDigits: 0 })}</h1>
                 )}
                 <hr />
                 <h6>{MarginalTaxRate}</h6>

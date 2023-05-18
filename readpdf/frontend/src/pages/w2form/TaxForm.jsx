@@ -20,6 +20,9 @@ export default function TaxForm() {
     const revenue = parseInt(useSelector((state) => state.scheduleInput.totalRevenue));
     const longTermGainOrLoss = parseInt(useSelector((state) => state.scheduleInput.longTermGainOrLoss));
     const shortTermGainOrLoss = parseInt(useSelector((state) => state.scheduleInput.shortTermGainOrLoss));
+    const rentalIncomeFromReducer = parseInt(useSelector((state) => state.scheduleInput.rentalIncome))
+    const rentalExpensesFromReducer = parseInt(useSelector((state) => state.scheduleInput.rentalExpenses))
+    let userInput = expenses || revenue || longTermGainOrLoss || shortTermGainOrLoss || inputValue || federalInputValue || rentalIncomeFromReducer || rentalExpensesFromReducer || 0
     function handleDataFromChildFileStatus(data) {
         setDataFromChildFileStatus(data);
     }
@@ -51,6 +54,7 @@ export default function TaxForm() {
             setFederalInputValueError(true)
         }
     };
+    // console.log(dataFromChildFileStatus);
     useEffect(() => {
         const options = { status: dataFromChildFileStatus, userWage: totalEstimateTaxableIncome, federalInputValue: federalInputValue }
         dispatch({ type: 'CALCULATE_ACCUMULATED_TAX', payload: options });
@@ -60,10 +64,10 @@ export default function TaxForm() {
         dispatch({ type: 'CALCULATE_LONG_CAPITAL_GAIN_TAX', payload: longTermGainOrLossOption });
     }, [dataFromChildFileStatus, dispatch, longTermGainOrLoss]);
     useEffect(() => {
-        const shortTermGainOrLossOption = { status: dataFromChildFileStatus || 'Single', taxGain: shortTermGainOrLoss}
+        const shortTermGainOrLossOption = { status: dataFromChildFileStatus , taxGain: shortTermGainOrLoss}
         dispatch({ type: 'CALCULATE_SHORT_CAPITAL_GAIN_TAX', payload: shortTermGainOrLossOption });
     }, [dataFromChildFileStatus, dispatch, shortTermGainOrLoss,])
-
+//method to converse language
     const getTranslatedText = (key, fallback) => {
         return currentLanguage === 'vi' ? translateText(key) : fallback;
     };
@@ -77,7 +81,7 @@ export default function TaxForm() {
     const InvestmentIncome = getTranslatedText('Investment Income', 'Investment Income');
     const RentalIncome = getTranslatedText('Rental Income', 'Rental Income');
 
-
+    
     return (
 
         <div className="container py-4">
@@ -85,9 +89,8 @@ export default function TaxForm() {
                 <div className='col-sm-12 col-lg-7 bg-clear border-5  rounded p-3 shadow-lg '>
                     <div className=''>
                         <div className='block'>{StatusDependents}</div>
-
                         <div >
-                            <FileStatus onDataFromChildFileStatus={handleDataFromChildFileStatus} />
+                            <FileStatus onDataFromChildFileStatus={handleDataFromChildFileStatus} userInput = {userInput}/>
                         </div>
                         <div className='block'>{Income}</div>
 

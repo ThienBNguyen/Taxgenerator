@@ -54,7 +54,11 @@ export default function FileStatus(props) {
     const MarriedFilingSeparately = getTranslatedText('Married Filing Separately', 'Married Filing Separately');
     const Unknown = getTranslatedText('Unknown', 'Unknown');
     return (
-        <div className='mb-3'><div className='mb-2'>{filingstatusfor2022}</div>
+        <div className='mb-3'><div className='mb-2'>{filingstatusfor2022} *</div>
+            {(selectedFillingStatusOption === "" && parseInt(props.userInput) !== 0) && (
+                <div className="text-danger">Please select a value </div>
+
+            )}
             <div className='mb-2'>
                 <input type="checkbox"
                     name="options"
